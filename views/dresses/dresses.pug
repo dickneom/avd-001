@@ -1,0 +1,10 @@
+extends ../layout
+
+block content
+  h1 Lista de vestidos
+
+  if dresses
+    each dress in dresses
+      p= dress.title
+  else
+    p Dresses no encontrado o vacio

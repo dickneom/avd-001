@@ -1,0 +1,8 @@
+extends ../layout
+include ../mixins
+
+block content
+  h1 Lista de vestidos
+
+  each user in users
+    p= user.nickname
