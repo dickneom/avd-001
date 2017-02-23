@@ -1,23 +1,14 @@
 extends ../layout
-
-mixin input(label, type, field, value, errors)
-  label(for=field)= label
-  if value
-    input(type=type name=field value=value)
-  else
-    input(type=type name=field)
-  br
-  +input_error(errors, field)
-
-mixin input_error(errors, field)
-  if (errors)
-    each error in errors
-      if (error.path == field)
-        li.error ERROR. #{error.message}
+include ../mixins/form-input
 
 block content
   h1 Crear Vestido
 
+  if (errors)
+    ul
+      each error in errors
+        li.error  Error en: #{error.path} error: #{error.message}
+        
   if dress
     p dress encontrado
     form(method='post' action='/dresses/create')

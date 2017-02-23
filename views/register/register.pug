@@ -2,7 +2,7 @@ extends ../layout
 include ../mixins/form-input
 
 block content
-  h1 Crear Usuario
+  h1 Registrar Usuario
 
   if (errors)
     ul
@@ -11,7 +11,7 @@ block content
 
   if user
     p user encontrado
-    form(method='post' action='/users/edit')
+    form(method='post' action='/register')
       +input('Id', 'text', 'userId', '', errors)
       +input('Alias', 'text', 'nickname', user.nickname, errors)
       +input('Nombre', 'text', 'firstname', user.firstname, errors)
@@ -19,11 +19,11 @@ block content
       +input('Email', 'email', 'email', user.email, errors)
       +input('Fecha de nacimiento', 'date', 'birthdate', user.birthdate, errors)
       +input('Constraseña', 'password', 'password', null, errors)
-      +input('Repetir Constraseña', 'password', 'password1', null, errors)
+      +input('Repetir Constraseña', 'password', 'password1', null, null)
       button(type='submit') Grabar
   else
     p user no encontrado o vacio
-    form(method='post' action='/users/edit')
+    form(method='post' action='/register')
       +input('Id', 'text', 'userId', '', null)
       +input('Alias', 'text', 'nickname', null, null)
       +input('Nombre', 'text', 'firstname', null, null)

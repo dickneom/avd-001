@@ -4,8 +4,12 @@ var favicon = require('serve-favicon')
 var logger = require('morgan')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
+var expressSession = require('express-session')
 
 var index = require('./routes/index')
+var login = require('./routes/login')
+var logout = require('./routes/logout')
+var register = require('./routes/register')
 var users = require('./routes/users')
 var userView = require('./routes/user_view')
 var userCreate = require('./routes/user_create')
@@ -15,12 +19,23 @@ var dressView = require('./routes/dress_view')
 var dressCreate = require('./routes/dress_create')
 var dressEdit = require('./routes/dress_edit')
 
+var session = expressSession({
+  secret: 'lkjsfffws',
+  key: 'sessionServidor',
+  resave: true,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 30
+  }
+})
+
 var app = express()
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 
+app.use(session)
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(logger('dev'))
@@ -28,8 +43,12 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'bower_components')))
 
 app.use('/', index)
+app.use('/login', login)
+app.use('/logout', logout)
+app.use('/register', register)
 app.use('/users', users)
 app.use('/users', userView)
 app.use('/users', userCreate)

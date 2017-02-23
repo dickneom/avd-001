@@ -5,6 +5,8 @@
 //-    link(rel='stylesheet', href='/stylesheets/style.css')
 //-  body
 //-    block content
+include mixins/menu-top
+
 mixin menu-auxiliar
   hr
   h3 Menu especial solo para desarrollo
@@ -67,6 +69,8 @@ html(lang='es')
     script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
 
   body
+    +menu-top(null)
+
     .container
     block content
 
