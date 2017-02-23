@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+  h1 Ver Vestido
+
+  if dress
+    p= dress.title
+    p= dress.description
+    p= dress.brandId
+    p= dress.stateId
+    p= dress.colorId
+    p= dress.userId
+  else
+    p dress no encontrado o vacio

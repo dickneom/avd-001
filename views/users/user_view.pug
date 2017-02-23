@@ -1,0 +1,12 @@
+extends ../layout
+
+block content
+  h1 Ver Usuario
+
+  if user
+    p= user.id
+    p= user.nickname
+    p= user.fullname
+    p= user.email
+  else
+    p user no encontrado o vacio

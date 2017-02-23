@@ -3,8 +3,14 @@ extends ../layout
 block content
   h1 Lista de vestidos
 
+  a(href='/dresses/create') Agregar Vestido
   if dresses
     each dress in dresses
+      p= dress.id
       p= dress.title
+      p= dress.nickname
+      p= dress.fullname
+      a(href='/dresses/' + dress.id) Ver
+      a(href='/dresses/' + dress.id + '/edit') Editar
   else
-    p Dresses no encontrado o vacio
+    p dresses no encontrado o vacio

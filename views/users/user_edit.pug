@@ -1,0 +1,32 @@
+extends ../layout
+
+mixin input(label, type, field, value, errors)
+  label(for=field)= label
+  if value
+    input(type=type name=field value=value)
+  else
+    input(type=type name=field)
+  br
+  +input_error(errors, field)
+
+mixin input_error(errors, field)
+  if (errors)
+    each error in errors
+      if (error.path == field)
+        li.error ERROR. #{error.message}
+
+block content
+  h1 Editar Usuario
+
+  if user
+    form(method='post' action='/users/edit')
+      +input('Id', 'text', 'userId', user.id, errors)
+      +input('Alias', 'text', 'nickname', user.nickname, errors)
+      +input('Nombre', 'text', 'firstname', user.firstname, errors)
+      +input('Apellido', 'text', 'lastname', user.lastname, errors)
+      +input('Email', 'email', 'email', user.email, errors)
+      +input('Fecha de nacimiento', 'date', 'birthdate', user.birthdate, errors)
+      button(type='submit') Grabar
+
+  else
+    p user no encontrado o vacio

@@ -1,8 +1,13 @@
 extends ../layout
-include ../mixins
 
 block content
-  h1 Lista de vestidos
+  h1 Lista de Usuarios
 
-  each user in users
-    p= user.nickname
+  a(href='/users/create') Agregar Usuario
+  if users
+    each user in users
+      p= user.nickname
+      a(href='/users/' + user.id) Ver
+      a(href='/users/' + user.id + '/edit') Editar
+  else
+    p users no encontrado o vacio

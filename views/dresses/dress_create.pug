@@ -1,0 +1,44 @@
+extends ../layout
+
+mixin input(label, type, field, value, errors)
+  label(for=field)= label
+  if value
+    input(type=type name=field value=value)
+  else
+    input(type=type name=field)
+  br
+  +input_error(errors, field)
+
+mixin input_error(errors, field)
+  if (errors)
+    each error in errors
+      if (error.path == field)
+        li.error ERROR. #{error.message}
+
+block content
+  h1 Crear Vestido
+
+  if dress
+    p dress encontrado
+    form(method='post' action='/dresses/create')
+      +input('Id', 'text', 'dressId', '', errors)
+      +input('Titulo', 'text', 'title', dress.title, errors)
+      +input('Descripcion', 'text', 'description', dress.description, errors)
+      +input('Color', 'text', 'colorId', dress.colorId, errors)
+      +input('Marca', 'text', 'brandId', dress.brandId, errors)
+      +input('Precio', 'text', 'price', dress.price, errors)
+      +input('Precio Original', 'text', 'priceOriginal', dress.priceOriginal, errors)
+      +input('Propietario', 'text', 'userId', dress.userId, errors)
+      button(type='submit') Grabar
+  else
+    p dress no encontrado o vacio
+    form(method='post' action='/dresses/create')
+      +input('Id', 'text', 'dressId', '', null)
+      +input('Titulo', 'text', 'title', null, null)
+      +input('Descripcion', 'text', 'description', null, null)
+      +input('Color', 'text', 'colorId', null, null)
+      +input('Marca', 'text', 'brandId', null, null)
+      +input('Precio', 'text', 'price', null, null)
+      +input('Precio Original', 'text', 'priceOriginal', null, null)
+      +input('Propietario', 'text', 'userId', null, null)
+      button(type='submit') Grabar
