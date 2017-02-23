@@ -8,7 +8,7 @@ block content
     ul
       each error in errors
         li.error  Error en: #{error.path} error: #{error.message}
-        
+
   if dress
     p dress encontrado
     form(method='post' action='/dresses/create')

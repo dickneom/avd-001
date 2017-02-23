@@ -31,6 +31,9 @@ router.get('/', function (req, res, next) {
   // ahora hay que decirle a node que limit y page son numeros
   limit = parseInt(limit, 10)
   page = parseInt(page, 10)
+  if (page < 1) {
+    page = 1
+  }
   offset = limit * (page - 1)
 
   console.log('(DRESSES.JS) limit: ', limit, ' page: ', page, ' offset: ', offset)
@@ -53,7 +56,9 @@ router.get('/', function (req, res, next) {
       pageName: 'dresses',
       sessionUser: null,
       errors: null,
-      dresses: dresses
+      dresses: dresses,
+      limit: limit,
+      page: page
     })
   }).catch(function (errors) { // Aqui capturo errores?????. Cuál?. Talvez un error producido en la busqueda de los vestidos
     console.log('(DRESSES.JS) ERROR en la busqueda. ' + errors) // Aqui presento el o los errores en el terminar

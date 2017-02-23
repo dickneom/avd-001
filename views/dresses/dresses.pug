@@ -12,5 +12,13 @@ block content
       p= dress.fullname
       a(href='/dresses/' + dress.id) Ver
       a(href='/dresses/' + dress.id + '/edit') Editar
+
   else
     p dresses no encontrado o vacio
+
+  if page > 1
+    li: a(href='/dresses?limit='+limit+'&page='+(page-1)) Anterior
+  else
+    li: a(href='/dresses?limit='+limit+'&page='+(page-1) deactivate) Anterior
+  li= page
+  li: a(href='/dresses?limit='+limit+'&page='+(page+1)) Siguiente

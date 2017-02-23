@@ -4,6 +4,8 @@ var router = express.Router()
 var db = require('../models/db')
 var controlUser = require('../control/users')
 
+var IMAG_USER_ANON = 'http://res.cloudinary.com/cloud-dc/image/upload/v1487441736/brwltuenzajetyxciozo.png'
+
 router.get('/create', function (req, res, next) {
   console.log('(USER_CREATE.JS) Atendiendo la ruta /users/create GET')
   console.log('Aqui nesecito mostrar un formulario vacio o lleno con los datos de un vestido ingresados. Pero con node tengo que usar sequelize. Porque no hay como separar la busqueda de la presentacion.')
@@ -29,7 +31,7 @@ router.post('/create', function (req, res, next) {
   user.email = req.body.email
   user.birthdate = req.body.birthdate
   user.authenticated = true
-  user.picture = 'http://res.cloudinary.com/cloud-dc/image/upload/v1487441736/brwltuenzajetyxciozo.png'
+  user.picture = IMAG_USER_ANON
 
   var pass = req.body.password
   var pass1 = req.body.password1
