@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 
 var db = require('../models/db')
+var session = require('../control/session')
 
 var DRESSES_FOR_PAGE = 9
 
@@ -14,7 +15,7 @@ var DRESSES_FOR_PAGE = 9
 / 		showDresses(dresses) // showDresses es una funcion que muestra los vestidos
 / Respuesta encontrada con node: TODO JUNTO.
 */
-router.get('/', function (req, res, next) {
+router.get('/', session.isSession, function (req, res, next) {
   console.log('(DRESSES.JS) Atendiendo la ruta /dresses GET')
   console.log('Aqui nesecito presentar los vestidos solitados. Pero con node tengo que usar sequelize. Porque no hay como separar la busqueda de la presentacion.')
 

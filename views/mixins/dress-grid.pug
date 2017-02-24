@@ -1,16 +1,17 @@
 mixin showDressGrid(dresses, type)
-  if dresses
-    if type === 'index'
-      each dress in dresses
-        +showDressIndex(dress)
-    if type === 'closet'
-      each dress in dresses
-        +showDressCloset(dress)
-    if type === 'mycloset'
-      each dress in dresses
-        +showDressMyCloset(dress)
-  else
-    p no hay vestidos
+  .container
+    .row
+      if dresses
+        each dress in dresses
+          .col-sm-4
+            if type === 'index'
+              +showDressIndex(dress)
+            if type === 'closet'
+              +showDressCloset(dress)
+            if type === 'mycloset'
+              +showDressMyCloset(dress)
+      else
+        p no hay vestidos
 
 
 

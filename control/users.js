@@ -2,6 +2,9 @@
 
 var db = require('../models/db')
 
+/**
+/ Encripta el password
+*/
 module.exports.encryptPassword = function encryptPassword (pass, cb) {
   console.log('*** *** *** *** Encriptando password')
   var encript = pass + 'a1'

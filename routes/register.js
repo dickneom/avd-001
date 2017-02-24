@@ -19,7 +19,7 @@ router.post('/', function (req, res, next) {
   console.log('(REGISTER.JS) Atendiendo la ruta: /register POST')
 
   var user = {}
-  user.id = req.body.id
+  // user.id = req.body.id
   user.nickname = req.body.nickname
   user.firstname = req.body.firstname
   user.lastname = req.body.lastname
@@ -35,8 +35,10 @@ router.post('/', function (req, res, next) {
     clavesIguales = false
   } else {
     user.password = controlUser.encryptPassword(user.password)
-  }
+    controlUser.encryptPassword(user.password, function(passEncrypt) {
 
+    })
+  }
   // user.createdAt = new Date()
   // user.updatedAt = new Date()
 

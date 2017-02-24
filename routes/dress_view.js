@@ -22,16 +22,34 @@ router.get('/:dressId([0-9]+)', function (req, res, next) {
     db.Dress.findOne({
       where: {
         id: dressId
-      }
+      },
+      include: [{
+        model: db.User,
+        as: 'user'
+      }, {
+        model: db.Color,
+        as: 'color'
+      }, {
+        model: db.Brand,
+        as: 'brand'
+      }, {
+        model: db.State,
+        as: 'state'
+      }]
     }).then(function (dress) { // Agui meto una funcion anonima porque nadie sabe (ni Google) como ponerla afuera, si ya sé que este codigo lo voy a utilizar de nuevo, pero a reescribir, que mas dá
       console.log('(DRESS_VIEW.JS) Vestido encontrado. dress: ', dress.id)
+
+      var user = null
+      if (req.session.userLoged) {
+        user = req.session.userLoged
+      }
 
       // Esto deberia ser parte del control, deberia ser una funcion, para reutilizar
       res.render('dresses/dress_view', {
         title: 'Node es una mierda, y mas mierda y mas mierda',
         pageTitle: 'Vestidos',
         pageName: 'dress_view',
-        sessionUser: null,
+        sessionUser: user,
         errors: null,
         dress: dress
       })

@@ -6,9 +6,19 @@ block content
   if dress
     p= dress.title
     p= dress.description
-    p= dress.brandId
-    p= dress.stateId
-    p= dress.colorId
-    p= dress.userId
+    p= dress.brand.brand
+    p= dress.state.title
+    p= dress.color.color
+    p Precio de alquiler
+    p= dress.priceForRent
+    p Precio de venta
+    p= dress.priceForSale
+    p Precio original
+    p= dress.priceOriginal
+    p= dress.image
+    if dress.user.nickname
+      p= dress.user.nickname
+    else
+      p= dress.user.fullname
   else
     p dress no encontrado o vacio
