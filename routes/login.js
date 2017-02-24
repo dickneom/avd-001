@@ -37,7 +37,7 @@ router.post('/', function (req, res, next) {
             email: user.email,
             isAdmin: user.isAdmin
           }
-          console.log('****** Redirecsionando a: ' + req.session.urlGet)
+          console.log('(LOGIN.JS) ****** Redirecsionando a: ' + req.session.urlGet)
           if (req.session.urlGet) {
             res.redirect(req.session.urlGet)
           } else {
@@ -45,7 +45,7 @@ router.post('/', function (req, res, next) {
           }
         } else {
           error = 'Usuario validado pero no autentidado'
-          console.log('*** ERROR: ' + error)
+          console.log('(LOGIN.JS) *** ERROR: ' + error)
           res.render('login/login', {
             pageTitle: 'Ingreso',
             pageName: 'login',
@@ -55,7 +55,7 @@ router.post('/', function (req, res, next) {
         }
       } else {
         error = 'Email y/o password no validos'
-        console.log('*** ERROR: ' + error)
+        console.log('(LOGIN.JS) *** ERROR: ' + error)
         res.render('login/login', {
           pageTitle: 'Ingreso',
           pageName: 'login',
@@ -64,7 +64,7 @@ router.post('/', function (req, res, next) {
         })
       }
     }).catch(function (errors) {
-      console.log('*** ERROR: en la busqueda (login.js)' + errors)
+      console.log('(LOGIN.JS) *** ERROR: en la busqueda (login.js)' + errors)
       res.send(errors)
     })
   })

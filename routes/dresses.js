@@ -5,7 +5,15 @@ var db = require('../models/db')
 
 var DRESSES_FOR_PAGE = 9
 
-/* GET home page. */
+/**
+/ GET home page.
+/ Muestra la pagina principal del sitio web
+/ Objetivo:
+/ 	Determinar la cantidad de vestidos por página y la página a mostrar:
+/ 		dresses = getDresses(limit, offset) // getVestidos es una funcion parte del modelo que me devuelve los vestidos
+/ 		showDresses(dresses) // showDresses es una funcion que muestra los vestidos
+/ Respuesta encontrada con node: TODO JUNTO.
+*/
 router.get('/', function (req, res, next) {
   console.log('(DRESSES.JS) Atendiendo la ruta /dresses GET')
   console.log('Aqui nesecito presentar los vestidos solitados. Pero con node tengo que usar sequelize. Porque no hay como separar la busqueda de la presentacion.')
@@ -40,21 +48,39 @@ router.get('/', function (req, res, next) {
   // Esto deberia se parte del modelo o control
   db.Dress.findAll({
     limit: limit,
-    offset: offset
+    offset: offset,
+    include: [{
+      model: db.User,
+      as: 'user'
+    }, {
+      model: db.Color,
+      as: 'color'
+    }, {
+      model: db.Brand,
+      as: 'brand'
+    }, {
+      model: db.State,
+      as: 'state'
+    }]
   }).then(function (dresses) { // Agui meto una funcion anonima porque nadie sabe (ni Google) como ponerla afuera, si ya sé que este codigo lo voy a utilizar de nuevo, pero a reescribir, que mas dá
-    console.log('(DRESSES.JS) dresses', dresses)
+    console.log('(DRESSES.JS) dresses', dresses.length)
     for (var dress in dresses) {
       if (dresses.hasOwnProperty(dress)) {
         console.log('dress: ', dresses[dress].id)
       }
     }
 
+    var user = null
+		if (req.session.userLoged) {
+			user = req.session.userLoged
+		}
+
     // Esto deberia ser parte del control, deberia ser una function, para reutilizar
     res.render('dresses/dresses', {
       title: 'Node es una mierda, y mas mierda y mas mierda',
       pageTitle: 'Vestidos',
       pageName: 'dresses',
-      sessionUser: null,
+      sessionUser: user,
       errors: null,
       dresses: dresses,
       limit: limit,

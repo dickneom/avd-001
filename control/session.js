@@ -1,3 +1,6 @@
+/**
+/ Verifica que el usuario esta logeado
+*/
 module.exports.isSession = function (req, res, next) {
   console.log('(SESSION.JS) Validando session del usuario')
   if (typeof req.session.userLoged === 'undefined') {
@@ -5,25 +8,26 @@ module.exports.isSession = function (req, res, next) {
     res.redirect('/login')
   } else {
     console.log('(SESSION.JS)  Sesion validada. Usuario: ' + req.session.userLoged.id)
-    // Ya esta logeado
     next()
   }
 }
 
-module.exports.isAdmin = function (req, res, mext) {
-  console.log('(SESSION.JS) Validando session del usuario')
+/**
+/ Verifica que el usuario esta logeado y es administrador
+*/
+module.exports.isAdmin = function (req, res, next) {
+  console.log('(SESSION.JS) Validando si el usuario esta logueado y es administrador')
+
   if (typeof req.session.userLoged === 'undefined') {
-    dbIser
-    console.log('(SESSION.JS) Sesion NO validada')
-    res.redirect('/login')
+    console.log('(SESSION.JS)  Usuario no logeado.')
+    res.send('(SESSION.JS)  Usuario no logeado')
   } else {
-    console.log('(SESSION.JS)  Sesion validada. Usuario: ' + req.session.userLoged.id)
-    // Ya esta logeado
-    if (req.sesseion.userLogen.isAdmin)
+    if (req.sesseion.userLogen.isAdmin) {
+      console.log('(SESSION.JS)  Acceso autorizaofo. Usuario: ' + req.session.userLoged.id)
       next()
-    else {
-        console.log('(SESSION.JS)  Acceso no autorizaofo. Usuario: ' + req.session.userLoged.id)
-        res.send
+    } else {
+      console.log('(SESSION.JS)  Acceso no autorizaofo. Usuario: ' + req.session.userLoged.id)
+      res.send('(SESSION.JS)  Acceso no autorizaofo. Usuario: ' + req.session.userLoged.id)
     }
   }
 }

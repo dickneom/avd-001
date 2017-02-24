@@ -13,7 +13,7 @@ mixin menu-top(name)
         if (name)
           p.navbar-text= name
         ul.nav.navbar-nav.navbar-right
-          if (pageName !== 'dresses')
+          if (pageName !== 'dresses' && name)
             li: a(href='/dresses') Vestidos
           if (name)
             if (pageName !== 'favorites')

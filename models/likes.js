@@ -55,7 +55,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     tableName: 'dresses_Likes',
-    timestamp: true,
+    timestamps: true,
     paranoid: true
     // aqui faltan las relaciones
   })

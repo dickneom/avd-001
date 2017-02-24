@@ -135,7 +135,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     tableName: 'users',
-    timestamp: true,
+    timestamps: true,
     paranoid: true,
     getterMethods: {
       fullname: function () {

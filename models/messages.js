@@ -77,7 +77,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     tableName: 'messages',
-    timestamp: true,
+    timestamps: true,
     paranoid: true
     // aqui faltan las relaciones
   })

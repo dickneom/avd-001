@@ -1,5 +1,21 @@
 extends layout
+include mixins/dress-grid
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1 Lista de vestidos (Index)
+
+  if page > 1
+    li: a(href='/?limit='+limit+'&page='+(page-1)) Anterior
+  else
+    li: a(href='/?limit='+limit+'&page='+(page)).deactivate Anterior
+  li= page
+  li: a(href='/?limit='+limit+'&page='+(page+1)) Siguiente
+
+  +showDressGrid(dresses, 'index')
+
+  if page > 1
+    li: a(href='/?limit='+limit+'&page='+(page-1)) Anterior
+  else
+    li: a(href='/?limit='+limit+'&page='+(page)).deactivate Anterior
+  li= page
+  li: a(href='/?limit='+limit+'&page='+(page+1)) Siguiente

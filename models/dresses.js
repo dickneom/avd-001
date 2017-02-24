@@ -21,12 +21,25 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       field: 'brand_id'
     },
-    price: {  // precio de venta
-      type: DataTypes.NUMERIC
+    priceForSale: {  // precio de venta
+      type: DataTypes.NUMERIC,
+      field: 'price_for_sale'
     },
     priceOriginal: {  // Precio del mercado o precio en que fue comprado
       type: DataTypes.NUMERIC,
       field: 'price_original'
+    },
+    priceForRent: {  // precio de alquiler
+      type: DataTypes.NUMERIC,
+      field: 'price_for_rent'
+    },
+    forSale: {
+      type: DataTypes.BOOLEAN,
+      field: 'for_sale'
+    },
+    forRent: {
+      type: DataTypes.BOOLEAN,
+      field: 'for_rent'
     },
     categoId: { // Noche, Dia, Novia, Quinceañera...
       type: DataTypes.INTEGER,
@@ -69,7 +82,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     tableName: 'dresses',
-    timestamp: true,
+    timestamps: true,
     underscored: true,
     paranoid: true
     // aqui faltan las relaciones
