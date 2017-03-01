@@ -1,0 +1,14 @@
+mixin linkShowDress(id)
+  a(href='/dresses/' + id) mxVer
+
+mixin linkUpdateDress(id)
+  a(href='/dresses/' + id + '/update') mxActualizar
+
+mixin linkImagesDress(id)
+  a(href='/dresses/' + id + '/images') mxImagen
+
+mixin linkCreateDress()
+  a(href='/dresses/create') mxAgregar Vestido
+
+mixin linkShowUser(id, name)
+  a(href='/users/' + id) mx #{name}

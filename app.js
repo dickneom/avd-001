@@ -10,14 +10,20 @@ var index = require('./routes/index')
 var login = require('./routes/login')
 var logout = require('./routes/logout')
 var register = require('./routes/register')
-var users = require('./routes/users')
-var userView = require('./routes/user_view')
-var userCreate = require('./routes/user_create')
-var userEdit = require('./routes/user_edit')
-var dresses = require('./routes/dresses')
+var passRecover = require('./routes/pass_recover')
+var dressesCloset = require('./routes/dresses_closet')
+var dressesMycloset = require('./routes/dresses_mycloset')
 var dressView = require('./routes/dress_view')
+var dressUpdate = require('./routes/dress_update')
+var dressImages = require('./routes/dress_images')
 var dressCreate = require('./routes/dress_create')
-var dressEdit = require('./routes/dress_edit')
+var users = require('./routes/users')
+var userProfile = require('./routes/user_profile')
+var userView = require('./routes/user_view')
+var userUpdate = require('./routes/user_update')
+var userImages = require('./routes/user_images')
+var userPassChange = require('./routes/user_pass_change')
+// var userCreate = require('./routes/user_create')
 
 var session = expressSession({
   secret: 'lkjsfffws',
@@ -45,18 +51,37 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.static(path.join(__dirname, 'bower_components')))
 
+app.use(function (req, res, next) {
+  console.log('****** (global dresses) ATENDIENDO LA RUTA: ' + req.url + ' METODO: ' + req.method)
+
+  if (req.method === 'GET') {
+    if (req.url !== '/login') {
+      req.session.lastUrlGet = req.url
+      console.log('****** (global dresses) Guardada la ruta: ' + req.session.lastUrlGet)
+    }
+  }
+
+  next()
+})
+
 app.use('/', index)
 app.use('/login', login)
 app.use('/logout', logout)
 app.use('/register', register)
-app.use('/users', users)
-app.use('/users', userView)
-app.use('/users', userCreate)
-app.use('/users', userEdit)
-app.use('/dresses', dresses)
+app.use('/pass_recover', passRecover)
+app.use('/dresses', dressesCloset)
+app.use('/dresses', dressesMycloset)
 app.use('/dresses', dressView)
+app.use('/dresses', dressUpdate)
+app.use('/dresses', dressImages)
 app.use('/dresses', dressCreate)
-app.use('/dresses', dressEdit)
+app.use('/users', users)
+app.use('/users', userProfile)
+app.use('/users', userView)
+app.use('/users', userUpdate)
+app.use('/users', userImages)
+app.use('/users', userPassChange)
+// app.use('/users', userCreate)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -2,20 +2,20 @@ var express = require('express')
 var router = express.Router()
 
 var db = require('../models/db')
-var session = require('../control/session')
+var controlSession = require('../control/session')
 
 var DRESSES_FOR_PAGE = 9
 
 /**
 / GET home page.
-/ Muestra la pagina principal del sitio web
+/ Muestra el closet o los vestidos en venta a los usuarios registrados
 / Objetivo:
 / 	Determinar la cantidad de vestidos por página y la página a mostrar:
 / 		dresses = getDresses(limit, offset) // getVestidos es una funcion parte del modelo que me devuelve los vestidos
 / 		showDresses(dresses) // showDresses es una funcion que muestra los vestidos
 / Respuesta encontrada con node: TODO JUNTO.
 */
-router.get('/', session.isSession, function (req, res, next) {
+router.get('/', controlSession.isSession, function (req, res, next) {
   console.log('(DRESSES.JS) Atendiendo la ruta /dresses GET')
   console.log('Aqui nesecito presentar los vestidos solitados. Pero con node tengo que usar sequelize. Porque no hay como separar la busqueda de la presentacion.')
 
@@ -48,6 +48,9 @@ router.get('/', session.isSession, function (req, res, next) {
   console.log('(DRESSES.JS) limit: ', limit, ' page: ', page, ' offset: ', offset)
   // Esto deberia se parte del modelo o control
   db.Dress.findAll({
+    where: {
+      stateId: 3
+    },
     limit: limit,
     offset: offset,
     include: [{
@@ -77,7 +80,7 @@ router.get('/', session.isSession, function (req, res, next) {
 		}
 
     // Esto deberia ser parte del control, deberia ser una function, para reutilizar
-    res.render('dresses/dresses', {
+    res.render('dresses/dresses_closet', {
       title: 'Node es una mierda, y mas mierda y mas mierda',
       pageTitle: 'Vestidos',
       pageName: 'dresses',

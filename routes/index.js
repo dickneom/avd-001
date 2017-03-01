@@ -38,6 +38,9 @@ router.get('/', function (req, res, next) {
 	console.log('(INDEX.JS) limit: ', limit, ' page: ', page, ' offset: ', offset)
 	// Esto deberia se parte del modelo o control: dresses = getDresses(limit, page) o dresses = getDresses(limit, offset)
 	db.Dress.findAll({
+		where: {
+			stateId: 3
+		},
 		limit: limit,
 		offset: offset,
 		include: [{

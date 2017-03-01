@@ -1,0 +1,47 @@
+mixin input(label, type, field, value, errors)
+  if (type !== 'hidden')
+    label(for=field)= label
+  if value
+    input(type=type name=field value=value)
+  else
+    input(type=type name=field)
+  br
+  +input_error(errors, field)
+
+
+
+
+
+mixin input_required(label, type, field, value, errors)
+  if (type !== 'hidden')
+    label(for=field)= label
+  if value
+    input(type=type name=field value=value required)
+  else
+    input(type=type name=field required)
+  br
+  +input_error(errors, field)
+
+
+
+
+
+mixin input_readonly(label, type, field, value, errors)
+  if (type !== 'hidden')
+    label(for=field)= label
+  if value
+    input(type=type name=field value=value readonly)
+  else
+    input(type=type name=field readonly)
+  br
+  //- +input_error(errors, field)
+
+
+
+
+
+mixin input_error(errors, field)
+  if (errors)
+    each error in errors
+      if (error.path == field)
+        li.error ERROR. #{error.message}

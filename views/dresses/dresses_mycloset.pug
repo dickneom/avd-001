@@ -1,0 +1,24 @@
+extends ../layout
+include ../mixins/dress_grid
+include ../mixins/links
+
+block content
+  h1 Lista de vestidos (Mi Closet)
+  +linkCreateDress
+
+  .container
+    if page > 1
+      li: a(href='/dresses/mycloset?limit='+limit+'&page='+(page-1)) Anterior
+    else
+      li: a(href='/dresses/mycloset?limit='+limit+'&page='+(page)).deactivate Anterior
+    li= page
+    li: a(href='/dresses/mycloset?limit='+limit+'&page='+(page+1)) Siguiente
+
+    +showDressGrid(dresses, 'mycloset')
+
+    if page > 1
+      li: a(href='/dresses/mycloset?limit='+limit+'&page='+(page-1)) Anterior
+    else
+      li: a(href='/dresses/mycloset?limit='+limit+'&page='+(page)).deactivate Anterior
+    li= page
+    li: a(href='/dresses/mycloset?limit='+limit+'&page='+(page+1)) Siguiente

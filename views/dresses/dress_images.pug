@@ -1,0 +1,29 @@
+extends ../layout
+include ../mixins/form_input
+
+block content
+  .container
+    if (errors)
+      ul
+        each error in errors
+          li.error  Error en: #{error.path} error: #{error.message}
+
+  .container
+    h1 Agregar imagen a un vestido
+    .row
+      .col-sm-9
+        .row
+          a(href='/dresses/mycloset') Regresar
+        .row
+          if (dress)
+            form(method='post' action='/dresses/images' enctype='multipart/form-data')
+              +input_readonly('ID vestido', 'text', 'dressId', dress.id, null)
+              img(src=dress.image width=150 height=200 alt='Vestido')
+              input(type='file'  name='image')
+              if (dress.image)
+                button(type='submit') Cambiar imagen
+              else
+                button(type='submit') Subir imagen
+
+      .col-sm-3
+        p Publicidad

@@ -4,7 +4,14 @@ var router = express.Router()
 var db = require('../models/db')
 var controlUser = require('../control/users')
 var controlEmail = require('../control/email')
+var controlSession = require('../control/session')
 
+var PASS_SIZE_MIN = 6
+var IMAG_USER_ANON = 'http://res.cloudinary.com/cloud-dc/image/upload/v1487441736/brwltuenzajetyxciozo.png'
+
+/**
+/ Metodo GET para la ruta /register, para el registro de un usuario
+*/
 router.get('/', function (req, res, next) {
   console.log('(REGISTER.JS) Atendiendo la ruta: /register GET')
   res.render('register/register', {
@@ -15,44 +22,54 @@ router.get('/', function (req, res, next) {
   })
 })
 
+/**
+/ Metodo POST para la ruta /register, para el registro de un usuario
+*/
 router.post('/', function (req, res, next) {
   console.log('(REGISTER.JS) Atendiendo la ruta: /register POST')
 
   var user = {}
-  // user.id = req.body.id
+  user.id = req.body.id
   user.nickname = req.body.nickname
   user.firstname = req.body.firstname
   user.lastname = req.body.lastname
   user.email = req.body.email
   user.birthdate = req.body.birthdate
   user.password = req.body.password
-  user.picture = 'http://res.cloudinary.com/cloud-dc/image/upload/v1487441736/brwltuenzajetyxciozo.png'
+  user.picture = IMAG_USER_ANON
 
   var pass = req.body.password1
   var clavesIguales = true
   if (pass !== user.password) {
-    user.password = null
+    user.password = ''
     clavesIguales = false
   } else {
-    user.password = controlUser.encryptPassword(user.password)
-    controlUser.encryptPassword(user.password, function(passEncrypt) {
-
-    })
+    console.log('(REGISTER.JS) password ', user.password)
+    if (user.password && user.password.length >= PASS_SIZE_MIN) {
+      controlUser.encryptPassword(user.password, function (resultado) {
+        user.password = resultado
+        console.log('(REGISTER.JS) password encriptado 1 ', user.password)
+      })
+      console.log('(REGISTER.JS) password encriptado 2 ', user.password)
+    }
   }
-  // user.createdAt = new Date()
-  // user.updatedAt = new Date()
 
-  console.log('*** Registrar usuario: ' + user + ', createdAt: ' + user.createdAt + ', UpdatedAt: ' + user.updatedAt)
-
+  console.log('(REGISTER.JS) *** Registrar usuario: ' + user)
   db.User.create(user)
   .then(function (userNew) {
-    console.log('****** Registro creado correctamente!')
+    console.log('(REGISTER.JS) ****** Registro creado correctamente!')
+    // Armando al mensaje que se va a enviar al email
     var date = new Date().getTime()
-    var message = userNew.id + ',' + date
-    console.log('********* Email message: ' + message)
-    message = '/register/' + controlEmail.encryptEmail(message)
+    var route = userNew.id + ',' + date
+    console.log('(REGISTER.JS) ********* Ruta a enviar: ' + route)
+    route = '/register/' + controlEmail.encryptEmail(route)
 
-    controlEmail.sendEmail(userNew.email, message)
+    var message = 'Estimado ' + userNew.nickname + '\n'
+    message += 'Hacer click en el enlace que sigue: \n'
+    message += route
+    message += 'Para confirmar su email'
+
+    controlEmail.sendSystemEmail(userNew.email, 'Confimacion email', message)
     //
     // ENVIAR EMAIL
     // EN MENSAJE CONTIENE LOS DATOS: ID DEL USUARIO, FECHA Y HORA DE ENVIO
@@ -64,15 +81,17 @@ router.post('/', function (req, res, next) {
       sessionUser: null,
       errors: null,
       user: userNew,
-      tempMessage: message  // Este mensaje debe enviarse por email
+      tempMessage: message,  // Este mensaje debe enviarse por email
+      tempRoute: route // Esta ruta se incluye en el email
     })
   })
   .catch(function (errors) {
-    console.log('****** ERROR. No se registraron los datos! : ' + errors)
+    console.log('(REGISTER.JS) ****** ERROR. No se registraron los datos! : ' + errors)
     var es = errors.errors
     for (var i = 0; i < es.length; i++) {
       var error = es[i]
-      if (error.path === 'clave' && !clavesIguales) {
+      if (error.path === 'password' && !clavesIguales) {
+        console.log('(REGISTER.JS) ****** ERROR. Cambiando error de claves por no son iguales.')
         es[i].message = 'Las contraseñas no son iguales'
       }
       console.log('********* Error ' + i + ' path: ' + error.path + ' error ' + error.message)
@@ -87,6 +106,10 @@ router.post('/', function (req, res, next) {
   })
 })
 
+/**
+/ Verificar el email del usuario.
+/ Esta ruta es unviada desde el metodo POST de la ruta /register por email al usuario para que verifique el email
+*/
 router.get('/:verif', function (req, res) {
   console.log('*************** Atendiendo la ruta: /register/:verif GET')
   var code = req.params.verif
@@ -99,19 +122,19 @@ router.get('/:verif', function (req, res) {
     console.log('*** userId: ' + userId + ' date: ' + date)
     var dateNow = new Date()
     var dif = dateNow.getTime() - date.getTime()
-    if (dif <= 1000 * 60 * 15) {
-      console.log('"****** TRANSCURRIDO MENOS DE 15 MIN')
+    if (dif <= 1000 * 60 * 60) { // Cambiado a 60 MINUTOS
+      console.log('(REGISTER.JS) ****** TRANSCURRIDO MENOS DE 15 MIN')
       db.User.findOne({
         where: {
           id: userId
         }
       }).then(function (user) {
         if (user) {
-          console.log('********* Autenticando: ' + user.nickname)
+          console.log('(REGISTER.JS) ********* Autenticando: ' + user.nickname)
           user.update({authenticated: true})
           .then(function (userNew) {
-            console.log('********* Actualizado: ' + userNew.id)
-            session.sessionInit(req, res, userNew)
+            console.log('(REGISTER.JS) ********* Actualizado: ' + userNew.id)
+            controlSession.sessionInit(req, res, userNew)
             res.render('register/register_verified', {
               pageTitle: 'Registro Verificado',
               pageName: 'register_verified',
@@ -120,25 +143,26 @@ router.get('/:verif', function (req, res) {
             })
           })
           .catch(function (errors) {
-            console.log('****** ERROR en la actualizacion del usuario')
+            console.log('(REGISTER.JS) ****** ERROR en la actualizacion del usuario')
             res.render('error', errors)
           })
         } else {
-          console.log('****** ERROR usuario no encontrado')
+          console.log('(REGISTER.JS) ****** ERROR usuario no encontrado')
           // HACER ALGO SI NO SE ENCUENTRA
         } // fin verificar si se encontro el usuario
       }).catch(function (errors) {
-        console.log('****** ERROR en la busqueda el usuario: ' + errors)
+        console.log('(REGISTER.JS) ****** ERROR en la busqueda el usuario: ' + errors)
         res.render('error', errors)
       })
     } else {
-      console.log('****** TRANSCURRIDO MAS DE 15 MIN. EMAIL CADUCADO')
+      console.log('(REGISTER.JS) ****** TRANSCURRIDO MAS DE 15 MIN. EMAIL CADUCADO')
       //
       //  SE DEBE HACER ALGO CUANDO CADUCA EL MENSAJE
       //
+      res.send('(REGISTER.JS) ****** TRANSCURRIDO MAS DE 15 MIN. EMAIL CADUCADO')
     } // fin verifica caducidad
   } else {
-    console.log('ERROR. Ruta sin codigo de verificacion.')
+    console.log('(REGISTER.JS) ERROR. Ruta sin codigo de verificacion.')
   }  // fin if (code)
 })
 

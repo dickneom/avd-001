@@ -3,7 +3,11 @@ var router = express.Router()
 
 var db = require('../models/db')
 var controlUser = require('../control/users')
+var controlSession = require('../control/session')
 
+/**
+/ Metdodo GET para la ruta /login
+*/
 router.get('/', function (req, res, next) {
   res.render('login/login', {
     title: 'Node es una mierda, y mas mierda y mas mierda',
@@ -14,6 +18,9 @@ router.get('/', function (req, res, next) {
   })
 })
 
+/**
+/ Metodo post para la ruta /login
+*/
 router.post('/', function (req, res, next) {
   var error
   var email = req.body.email
@@ -30,16 +37,11 @@ router.post('/', function (req, res, next) {
       if (user) {
         if (user.authenticated) {
           console.log('(LOGIN.JS) ****** Usuario validado y autentidado')
-          req.session.userLoged = {
-            id: user.id,
-            nickname: user.nickname,
-            fullname: user.fullname,
-            email: user.email,
-            isAdmin: user.isAdmin
-          }
-          console.log('(LOGIN.JS) ****** Redirecsionando a: ' + req.session.urlGet)
-          if (req.session.urlGet) {
-            res.redirect(req.session.urlGet)
+          controlSession.sessionInit(req, res, user, rememberme)
+
+          console.log('(LOGIN.JS) ****** Redireccionando a: ' + req.session.lastUrlGet)
+          if (req.session.lastUrlGet) {
+            res.redirect(req.session.lastUrlGet)
           } else {
             res.redirect('/')
           }

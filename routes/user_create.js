@@ -2,9 +2,10 @@ var express = require('express')
 var router = express.Router()
 
 var db = require('../models/db')
+var global = require('../config/global')
 var controlUser = require('../control/users')
 
-var IMAG_USER_ANON = 'http://res.cloudinary.com/cloud-dc/image/upload/v1487441736/brwltuenzajetyxciozo.png'
+// var IMAG_USER_ANON = 'http://res.cloudinary.com/cloud-dc/image/upload/v1487441736/brwltuenzajetyxciozo.png'
 
 router.get('/create', function (req, res, next) {
   console.log('(USER_CREATE.JS) Atendiendo la ruta /users/create GET')
@@ -31,7 +32,7 @@ router.post('/create', function (req, res, next) {
   user.email = req.body.email
   user.birthdate = req.body.birthdate
   user.authenticated = true
-  user.picture = IMAG_USER_ANON
+  user.picture = global.IMAG_USER_ANON
 
   var pass = req.body.password
   var pass1 = req.body.password1

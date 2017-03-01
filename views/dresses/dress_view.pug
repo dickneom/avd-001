@@ -4,21 +4,37 @@ block content
   h1 Ver Vestido
 
   if dress
-    p= dress.title
-    p= dress.description
-    p= dress.brand.brand
-    p= dress.state.title
-    p= dress.color.color
-    p Precio de alquiler
-    p= dress.priceForRent
-    p Precio de venta
-    p= dress.priceForSale
-    p Precio original
-    p= dress.priceOriginal
-    p= dress.image
-    if dress.user.nickname
-      p= dress.user.nickname
-    else
-      p= dress.user.fullname
+    .row
+      .col-sm-4
+        img(src=dress.image width=200 height=300 alt=dress.image)
+        p Imagen: #{dress.image}
+      .col-sm-8
+        p= dress.title
+        p= dress.description
+        p= dress.brand.brand
+        p= dress.state.title
+        p= dress.color.color
+        p Precio de alquiler
+        p= dress.priceForRent
+        p Precio de venta
+        p= dress.priceForSale
+        p Precio original
+        p= dress.priceOriginal
+        if dress.user
+          if dress.user.nickname
+            if sessionUser
+              a(href='/users/' + dress.user.id) #{dress.user.nickname}
+            else
+              p #{dress.user.nickname}
+          else
+            if sessionUser
+              a(href='/users/' + dress.user.id) #{dress.user.fullname}
+            else
+              p #{dress.user.fullname}
+    if sessionUser
+      .row
+        a(href='/dresses/' + dress.id + '/like'): button(type='button') Agregar Favorito
+        a(href='/dresses/' + dress.id + '/buy'): button(type='button') Comprar
+        a(href='/dresses/' + dress.id + '/edit'): button(type='button') Editar
   else
     p dress no encontrado o vacio

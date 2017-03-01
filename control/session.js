@@ -31,3 +31,24 @@ module.exports.isAdmin = function (req, res, next) {
     }
   }
 }
+
+/**
+/ Inicia una session
+*/
+module.exports.sessionInit = function sessionInit (req, res, user, rememberme) {
+  req.session.userLoged = {
+    id: user.id,
+    nickname: user.nickname,
+    fullname: user.fullname,
+    email: user.email,
+    isAdmin: user.isAdmin
+  }
+  console.log('(SESSION.JS) *** *** *** *** Session iniciada')
+}
+
+/**
+/ Verifica si el usuario logeado esta autenticado
+*/
+module.exports.isAuthenticado = function isAuthenticado () {
+
+}

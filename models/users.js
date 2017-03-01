@@ -42,22 +42,23 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: {args: false, msg: 'No puede ser nulo.'},
       validate: {
         notEmpty: {args: true, msg: 'La fecha de nacimiento no puede estar vacia.'},
-        isDate: {args: true, msg: 'Formato de fecha no valido.'},
-        isEmpty: function (value) {
+        isDate: {args: true, msg: 'Formato de fecha no valido.'}
+/*        isEmpty: function (value) {
           console.log('birthdate: -' + value + '-')
           if (value.length === 0) {
-            throw new Error('La fecha de nacimiento no puede estar vacia.')
+            throw new Error('La fecha de nacimiento no puede estar vacia..')
           }
-        }
+        } */
       }
     },
     password: {
       type: DataTypes.TEXT,
-      allowNull: {args: false, msg: 'No puede ser nulo'},
+      allowNull: {args: false, msg: 'La contraseña debe tener de 6 a 20 caracteres.'},
       notEmpty: true,
       notNull: true,
       validate: {
-        len: {args: [6, 20], msg: 'La clave debe tener de 6 a 20 caracteres'}
+//        notEmpty: {args: true, msg: 'La contraseña debe tener de 6 a 20 caracteres..'},
+        len: {args: [6, 20], msg: 'La contraseña debe tener de 6 a 20 caracteres...'}
       }
     },
     authenticated: {
