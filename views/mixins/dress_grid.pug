@@ -26,9 +26,11 @@ mixin showDressIndex(dress)
   p= dress.color.color
   p= dress.state.title
   p= dress.brand.brand
-  p= dress.priceForRent
-  p= dress.priceForSale
-  p= dress.priceOriginal
+  if dress.forRent
+    p Precio alquiler: #{dress.priceForRent}
+  if dress.forSale
+    p Precio venta: #{dress.priceForSale}
+  p Precio original: #{dress.priceOriginal}
   p= dress.image
 
   if dress.user
@@ -44,6 +46,7 @@ mixin showDressIndex(dress)
       else
         p #{dress.user.fullname}
   br
+
   +linkShowDress(dress.id)
   //- a(href='/dresses/' + dress.id) Ver
 
@@ -58,9 +61,11 @@ mixin showDressCloset(dress)
   p= dress.color.color
   p= dress.state.title
   p= dress.brand.brand
-  p= dress.priceForRent
-  p= dress.priceForSale
-  p= dress.priceOriginal
+  if dress.forRent
+    p Precio alquiler: #{dress.priceForRent}
+  if dress.forSale
+    p Precio venta: #{dress.priceForSale}
+  p Precio original: #{dress.priceOriginal}
   p= dress.image
   if dress.user
     if dress.user.nickname
@@ -75,10 +80,14 @@ mixin showDressCloset(dress)
       else
         p #{dress.user.fullname}
   br
+
   +linkShowDress(dress.id)
-  //-a(href='/dresses/' + dress.id) Ver
-  a(href='#') Favoritos
-  a(href='#') Comprar
+  if sessionUser
+    a(href='#') Favoritos
+    if dress.forSale
+      +linkBuyDress(dress.id)
+    if dress.forRent
+      +linkRentDress(dress.id)
 
 
 
@@ -91,9 +100,11 @@ mixin showDressMyCloset(dress)
   p= dress.color.color
   p= dress.state.title
   p= dress.brand.brand
-  p= dress.priceForRent
-  p= dress.priceForSale
-  p= dress.priceOriginal
+  if dress.forRent
+    p Precio alquiler: #{dress.priceForRent}
+  if dress.forSale
+    p Precio venta: #{dress.priceForSale}
+  p Precio original: #{dress.priceOriginal}
   p= dress.image
   if dress.user
     if dress.user.nickname
@@ -108,10 +119,11 @@ mixin showDressMyCloset(dress)
       else
         p #{dress.user.fullname}
   br
+
   +linkShowDress(dress.id)
   +linkUpdateDress(dress.id)
   +linkImagesDress(dress.id)
   if dress.stateId === 1
     +linkPublishDress(dress.id)
   if dress.stateId === 2 || dress.stateId === 3
-    p Retirar
+    +linkUnpublishDress(dress.id)

@@ -8,7 +8,16 @@ mixin linkImagesDress(id)
   a(href='/dresses/' + id + '/images') mxImagen
 
 mixin linkPublishDress(id)
-    a(href='/dresses/' + id + '/publish') mxPublicar
+  a(href='/dresses/' + id + '/publish') mxPublicar
+
+mixin linkUnpublishDress(id)
+  a(href='/dresses/' + id + '/publish_un') mxRetirar
+
+mixin linkBuyDress(id)
+  a(href='/dresses/' + id + '/buy') mxComprar
+
+mixin linkRentDress(id)
+  a(href='/dresses/' + id + '/rent') mxAlquilar
 
 mixin linkCreateDress()
   a(href='/dresses/create') mxAgregar Vestido

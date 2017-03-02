@@ -57,6 +57,39 @@ router.get('/:dressId([0-9]+)/publish', controlSession.isSession, controlDresses
 })
 
 /**
+/ Medoto GET para la ruta dresses/:idDress/publish, para retirar la publicación de un vestido
+*/
+router.get('/:dressId([0-9]+)/publish_un', controlSession.isSession, controlDresses.isOwnerDress, function (req, res, next) {
+  console.log('(DRESS_PUBLISH.JS) Atendiendo la ruta /dresses/:dressId/publish_un GET')
+
+  var dressId = req.params.dressId
+  console.log('(DRESS_PUBLISH.JS) dressId: ', dressId)
+
+  if (dressId) {
+    // Esto deberia se parte del modelo o control
+    db.Dress.findOne({
+      where: {
+        id: dressId
+      }
+    }).then(function (dress) { // Agui meto una funcion anonima porque nadie sabe (ni Google) como ponerla afuera, si ya sé que este codigo lo voy a utilizar de nuevo, pero a reescribir, que mas dá
+      console.log('(DRESS_PUBLISH.JS) Vestido encontrado. dress: ', dress.id)
+      dress.stateId = 1
+      dress.save().then(function (dressNew) {
+        console.log('(DRESS_PUBLISH.JS) Vestido retirado. dress: ', dress.id)
+
+        res.redirect('/dresses/mycloset')
+      })
+    }).catch(function (errors) {
+      console.log('(DRESS_PUBLISH.JS) ERROR (dress) en la busqueda. ' + errors) // Aqui presento el o los errores en el terminar
+      res.send('(DRESS_PUBLISH.JS) ERROR (dress) en la busqueda. ' + errors) // Aqui presento el o los errores en el navegador
+    })
+  } else {
+    console.log('(DRESS_PUBLISH.JS) ERROR el id del vestido no encontrado. ')
+    res.send('(DRESS_PUBLISH.JS) ERROR el id del vestido no encontrado. ')
+  }
+})
+
+/**
 / Medoto GET para la ruta dresses/:idDress/publish_acept, para aceptar la publicacion de un vestido
 */
 router.get('/:dressId([0-9]+)/publish_acept', controlSession.isAdmin, function (req, res, next) {
