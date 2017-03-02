@@ -20,14 +20,14 @@ module.exports.isAdmin = function (req, res, next) {
 
   if (typeof req.session.userLoged === 'undefined') {
     console.log('(SESSION.JS)  Usuario no logeado.')
-    res.send('(SESSION.JS)  Usuario no logeado')
+    res.redirect('/login')
   } else {
-    if (req.sesseion.userLogen.isAdmin) {
-      console.log('(SESSION.JS)  Acceso autorizaofo. Usuario: ' + req.session.userLoged.id)
+    if (req.session.userLoged.isAdmin) {
+      console.log('(SESSION.JS)  Acceso autorizado. Usuario: ' + req.session.userLoged.id)
       next()
     } else {
-      console.log('(SESSION.JS)  Acceso no autorizaofo. Usuario: ' + req.session.userLoged.id)
-      res.send('(SESSION.JS)  Acceso no autorizaofo. Usuario: ' + req.session.userLoged.id)
+      console.log('(SESSION.JS)  Acceso no autorizado. Usuario: ' + req.session.userLoged.id)
+      res.send('(SESSION.JS)  Acceso no autorizado. Usuario: ' + req.session.userLoged.id)
     }
   }
 }

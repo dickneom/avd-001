@@ -25,6 +25,8 @@ var userUpdate = require('./routes/user_update')
 var userImages = require('./routes/user_images')
 var userPassChange = require('./routes/user_pass_change')
 // var userCreate = require('./routes/user_create')
+var messages = require('./routes/messages')
+var messageView = require('./routes/message_view')
 
 var session = expressSession({
   secret: 'lkjsfffws',
@@ -84,6 +86,8 @@ app.use('/users', userUpdate)
 app.use('/users', userImages)
 app.use('/users', userPassChange)
 // app.use('/users', userCreate)
+app.use('/messages', messages)
+app.use('/messages', messageView)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

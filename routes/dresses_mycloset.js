@@ -77,9 +77,9 @@ router.get('/mycloset', controlSession.isSession, function (req, res, next) {
     }
 
     var user = null
-		if (req.session.userLoged) {
-			user = req.session.userLoged
-		}
+    if (req.session.userLoged) {
+      user = req.session.userLoged
+    }
 
     // Esto deberia ser parte del control, deberia ser una function, para reutilizar
     res.render('dresses/dresses_mycloset', {

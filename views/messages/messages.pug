@@ -1,0 +1,21 @@
+extends ../layout
+
+block content
+  h1 Mensajes
+
+  if messages
+    each mess in messages
+      if !mess.isRead
+        h3
+          | #{mess.date}
+          |  - #{mess.subject}
+          |  - #{mess.text}
+          |  - #{mess.url}
+      else
+        p
+          | #{mess.date}
+          |  - #{mess.subject}
+          |  - #{mess.text}
+          |  - #{mess.url}
+
+      a(href='/messages/' + mess.id) Ver
