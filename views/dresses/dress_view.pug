@@ -20,6 +20,7 @@ block content
         p= dress.priceForSale
         p Precio original
         p= dress.priceOriginal
+        //- Para mostrar el propietario, si es un usuario registrado es un enlace, caso contrario es un texto
         if dress.user
           if dress.user.nickname
             if sessionUser
@@ -35,6 +36,11 @@ block content
       .row
         a(href='/dresses/' + dress.id + '/like'): button(type='button') Agregar Favorito
         a(href='/dresses/' + dress.id + '/buy'): button(type='button') Comprar
-        a(href='/dresses/' + dress.id + '/edit'): button(type='button') Editar
+        if sessionUser.id === dress.userId
+          a(href='/dresses/' + dress.id + '/edit'): button(type='button') Editar
+        if sessionUser.isAdmin
+          a(href='/dresses/' + dress.id + '/acept'): button(type='button') Aprobar
+          a(href='/dresses/' + dress.id + '/reject'): button(type='button') Reprobar
+
   else
     p dress no encontrado o vacio

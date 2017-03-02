@@ -23,7 +23,7 @@ router.get('/profile', controlSession.isSession, function (req, res, next) {
       res.render('users/user_profile', {
         title: 'Node es una mierda, y mas mierda y mas mierda',
         pageTitle: 'Vestidos',
-        pageName: 'user_view',
+        pageName: 'user_profile',
         sessionUser: req.session.userLoged,
         errors: null,
         user: user

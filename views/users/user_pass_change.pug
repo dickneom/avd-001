@@ -5,12 +5,12 @@ block content
   .row
     if errors
       each error in errors
-        p.error #{error}
+        p.error ERROR. #{error.message}
   .row
     .col-sm-6
       form(method='post' action='/users/pass_change')
         +input_readonly('Id Usuario', 'text', 'userId', sessionUser.id, null)
-        +input_required('Contraseña Anterior', 'passOld', '', errors)
+        +input_required('Contraseña Anterior', 'password', 'passOld', '', errors)
         +input_required('Contraseña', 'password', 'pass1', '', errors)
         +input_required('Contraseña', 'password', 'pass2', '', errors)
         button(type='submit') Grabar

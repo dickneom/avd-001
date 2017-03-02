@@ -111,4 +111,7 @@ mixin showDressMyCloset(dress)
   +linkShowDress(dress.id)
   +linkUpdateDress(dress.id)
   +linkImagesDress(dress.id)
-  a(href='#') Publicar
+  if dress.stateId === 1
+    +linkPublishDress(dress.id)
+  if dress.stateId === 2 || dress.stateId === 3
+    p Retirar

@@ -17,7 +17,7 @@ block content
       +input_required('Apellido', 'text', 'lastname', user.lastname, errors)
       +input_required('Email', 'email', 'email', user.email, errors)
       +input_required('Fecha de nacimiento', 'text', 'bd', user.birthdate, null)
-      +input_required('Fecha de nacimiento', 'date', 'birthdate', '#{user.birthdate}', errors)
+      +input_required('Fecha de nacimiento', 'date', 'birthdate', user.birthdate, errors)
       button(type='submit') Grabar
 
   else
