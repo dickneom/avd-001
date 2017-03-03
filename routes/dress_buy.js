@@ -11,24 +11,24 @@ router.get('/:dressId/buy', controlSession.isSession, function (req, res, next) 
   if (dressId) {
     db.Dress.findOne({
       where: {
-  	    id: dressI
-  	  }
-  	}).then(function (dress) {
-  	  dress.stateId = 4
-  	  dress.save().then(function (dress) {
-
-  	  })catch(function (errors) {
-		console.log('(DRESSES_BUY.JS) ERROR en la busqueda del vestido.')
-		res.send('(DRESSES_BUY.JS) ERROR en la busqueda del vestido.')
-
-  	  })
-  	}).catch(function (errors) {
-	  console.log('(DRESSES_BUY.JS) ERROR en la busqueda del vestido.')
-	  res.send('(DRESSES_BUY.JS) ERROR en la busqueda del vestido.')
-  	})
+        id: dressId
+      }
+    }).then(function (dress) {
+      dress.stateId = 4
+      dress.save().then(function (dress) {
+        console.log('(DRESSES_BUY.JS) Vestido comprado. dress: ', dressId)
+        
+      }).catch(function (errors) {
+        console.log('(DRESSES_BUY.JS) ERROR en la busqueda del vestido.')
+        res.send('(DRESSES_BUY.JS) ERROR en la busqueda del vestido.')
+      })
+    }).catch(function (errors) {
+      console.log('(DRESSES_BUY.JS) ERROR en la busqueda del vestido.')
+      res.send('(DRESSES_BUY.JS) ERROR en la busqueda del vestido.')
+    })
   } else {
-	console.log('(DRESSES_BUY.JS) ERROR id del vestido no encontrado.')
-	res.send('(DRESSES_BUY.JS) ERROR id del vestido no encontrado.')
+    console.log('(DRESSES_BUY.JS) ERROR id del vestido no encontrado.')
+    res.send('(DRESSES_BUY.JS) ERROR id del vestido no encontrado.')
   }
 })
 
@@ -38,8 +38,8 @@ router.get('/:dressId/buy_cancel', controlSession.isSession, function (req, res,
   if (dressId) {
 
   } else {
-	console.log('(DRESSES_BUY.JS) ERROR id del vestido no encontrado.')
-	res.send('(DRESSES_BUY.JS) ERROR id del vestido no encontrado.')
+    console.log('(DRESSES_BUY.JS) ERROR id del vestido no encontrado.')
+    res.send('(DRESSES_BUY.JS) ERROR id del vestido no encontrado.')
   }
 })
 
@@ -49,8 +49,8 @@ router.get('/:dressId/rent', controlSession.isSession, function (req, res, next)
   if (dressId) {
 
   } else {
-	console.log('(DRESSES_BUY.JS) ERROR id del vestido no encontrado.')
-	res.send('(DRESSES_BUY.JS) ERROR id del vestido no encontrado.')
+    console.log('(DRESSES_BUY.JS) ERROR id del vestido no encontrado.')
+    res.send('(DRESSES_BUY.JS) ERROR id del vestido no encontrado.')
   }
 })
 
@@ -60,8 +60,8 @@ router.get('/:dressId/rent_cancel', controlSession.isSession, function (req, res
   if (dressId) {
 
   } else {
-	console.log('(DRESSES_BUY.JS) ERROR id del vestido no encontrado.')
-	res.send('(DRESSES_BUY.JS) ERROR id del vestido no encontrado.')
+    console.log('(DRESSES_BUY.JS) ERROR id del vestido no encontrado.')
+    res.send('(DRESSES_BUY.JS) ERROR id del vestido no encontrado.')
   }
 })
 

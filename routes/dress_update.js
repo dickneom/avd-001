@@ -31,58 +31,64 @@ router.get('/:dressId([0-9]+)/update', controlSession.isSession, controlDresses.
     }).then(function (dress) { // Agui meto una funcion anonima porque nadie sabe (ni Google) como ponerla afuera, si ya sé que este codigo lo voy a utilizar de nuevo, pero a reescribir, que mas dá
       console.log('(DRESS_UPDATE.JS) Vestido encontrado. dress: ', dress.id)
 
-      // Determinar el usuario logeado, null si no esta logeado
-      var userLoged = null
-      if (req.session.userLoged) {
-        userLoged = req.session.userLoged
-      }
-
-      // Recuperando los colores disponibles
-      console.log('(DRESS_UPDATE.JS) Recuperando colores')
-      // var colors
-      db.Color.findAll().then(function (colors) {
-        if (colors) {
-          // console.log('(DRESS_UPDATE.JS) Encontrados: ', cls.length, ' colores.')
-          // colors = cls
-          console.log('(DRESS_UPDATE.JS) Encontrados: ', colors.length, ' colores.')
-          // Tipico en node amontona todo aqui. Averigua donde quedara el catch para este findAll.
-          // Si no lo haces, el render lo hara con colors: undefined? null? o ???
-          // Recuperando las marcar disponibles
-          console.log('(DRESS_UPDATE.JS) Recuperando marcas')
-          // var brands
-          db.Brand.findAll().then(function (brands) {
-            if (brands) {
-              // console.log('(DRESS_UPDATE.JS) Encontrados: ', brs.length, ' marcas.')
-              // brands = brs
-              console.log('(DRESS_UPDATE.JS) Encontrados: ', brands.length, ' marcas.')
-              // Sigue amontonando, cuando te pierdas, desechas el codigo y vuelves a amontonar. Averigua donde quedara el catch para este findAll.
-              // Si no lo haces, el render lo hara con colors: undefined? null? o ???
-              // Recuperando las marcar disponibles
-
-              // Esto deberia ser parte del control, deberia ser una funcion, para reutilizar
-              console.log('(DRESS_UPDATE.JS) Mostrando vestido para edicion.')
-              res.render('dresses/dress_update', {
-                title: 'Node es una mierda, y mas mierda y mas mierda',
-                pageTitle: 'Vestidos',
-                pageName: 'dress_update',
-                sessionUser: userLoged,
-                errors: null,
-                dress: dress,
-                brands: brands,
-                colors: colors
-              })
-            } else {
-              console.log('(DRESS_UPDATE.JS) ERROR no se encontró ninguna marca.')
-            }
-          }).catch(function (errors) {
-            console.log('(DRESS_UPDATE.JS) ERROR en la busqueda al recuperar las marcas.', errors)
-          })
-        } else {
-          console.log('(DRESS_UPDATE.JS) ERROR no se encontró ningún color.')
+      // Determinar si el vestido puede ser editado
+      if (dress.stateId <= 3) { // Estados 1=REGISTRADO, 2= PUBLICADO, 3= APROBADO
+        // Determinar el usuario logeado, null si no esta logeado
+        var userLoged = null
+        if (req.session.userLoged) {
+          userLoged = req.session.userLoged
         }
-      }).catch(function (errors) {
-        console.log('(DRESS_UPDATE.JS) ERROR en la busqueda al recuperar los colores.', errors)
-      })
+
+        // Recuperando los colores disponibles
+        console.log('(DRESS_UPDATE.JS) Recuperando colores')
+        // var colors
+        db.Color.findAll().then(function (colors) {
+          if (colors) {
+            // console.log('(DRESS_UPDATE.JS) Encontrados: ', cls.length, ' colores.')
+            // colors = cls
+            console.log('(DRESS_UPDATE.JS) Encontrados: ', colors.length, ' colores.')
+            // Tipico en node amontona todo aqui. Averigua donde quedara el catch para este findAll.
+            // Si no lo haces, el render lo hara con colors: undefined? null? o ???
+            // Recuperando las marcar disponibles
+            console.log('(DRESS_UPDATE.JS) Recuperando marcas')
+            // var brands
+            db.Brand.findAll().then(function (brands) {
+              if (brands) {
+                // console.log('(DRESS_UPDATE.JS) Encontrados: ', brs.length, ' marcas.')
+                // brands = brs
+                console.log('(DRESS_UPDATE.JS) Encontrados: ', brands.length, ' marcas.')
+                // Sigue amontonando, cuando te pierdas, desechas el codigo y vuelves a amontonar. Averigua donde quedara el catch para este findAll.
+                // Si no lo haces, el render lo hara con colors: undefined? null? o ???
+                // Recuperando las marcar disponibles
+                console.log('vestido se renta: ', dress.forRent, ' Se vende: ', dress.forSale)
+                // Esto deberia ser parte del control, deberia ser una funcion, para reutilizar
+                console.log('(DRESS_UPDATE.JS) Mostrando vestido para edicion.')
+                res.render('dresses/dress_update', {
+                  title: 'Node es una mierda, y mas mierda y mas mierda',
+                  pageTitle: 'Vestidos',
+                  pageName: 'dress_update',
+                  sessionUser: userLoged,
+                  errors: null,
+                  dress: dress,
+                  brands: brands,
+                  colors: colors
+                })
+              } else { // if para las marcas
+                console.log('(DRESS_UPDATE.JS) ERROR no se encontró ninguna marca.')
+              }
+            }).catch(function (errors) {
+              console.log('(DRESS_UPDATE.JS) ERROR en la busqueda al recuperar las marcas.', errors)
+            })
+          } else { // if para los colores
+            console.log('(DRESS_UPDATE.JS) ERROR no se encontró ningún color.')
+          }
+        }).catch(function (errors) {
+          console.log('(DRESS_UPDATE.JS) ERROR en la busqueda al recuperar los colores.', errors)
+        })
+      } else { // if para el estado del vestido
+        console.log('(DRESS_UPDATE.JS) ERROR el vestido no puede ser editado.')
+        res.send('(DRESS_UPDATE.JS) ERROR el vestido no puede ser editado.')
+      }
     }).catch(function (errors) { // Aqui capturo errores?????. Cuál?. Talvez un error producido en la busqueda de los vestidos
       console.log('(DRESS_UPDATE.JS) ERROR (dress) en la busqueda. ' + errors) // Aqui presento el o los errores en el terminar
       res.send('(DRESS_UPDATE.JS) ERROR (dress) en la busqueda. ' + errors) // Aqui presento el o los errores en el navegador
@@ -104,14 +110,18 @@ router.post('/update', controlSession.isSession, controlDresses.isOwnerDress, fu
         id: dressId
       }
     }).then(function (dress) {
+      console.log('(DRESS_UPDATE.JS) 1 forRent: ', dress.forRent, ' forSale: ', dress.forSale)
       dress.title = req.body.title
       dress.description = req.body.description
       dress.colorId = req.body.colorId
       dress.brandId = req.body.brandId
+      dress.forRent = req.body.forRent ? true : false
       dress.priceForRent = req.body.priceForRent
+      dress.forSale = req.body.forSale ? true : false
       dress.priceForSale = req.body.priceForSale
       dress.priceOriginal = req.body.priceOriginal
-
+      dress.stateId = 1
+      console.log('(DRESS_UPDATE.JS) 2 forRent: ', dress.forRent, '-', req.body.forRent, ' forSale: ', dress.forSale, '-', req.body.forSale)
       dress.save().then(function (dressNew) {
         console.log('(DRESS_UPDATE.JS) Vestido grabado correctamente.')
         // Recuperando los colores disponibles
@@ -129,7 +139,7 @@ router.post('/update', controlSession.isSession, controlDresses.isOwnerDress, fu
                   pageName: 'dress_edit',
                   sessionUser: req.session.userLoged,
                   errors: null,
-                  dress: dress,
+                  dress: dressNew,
                   colors: colors,
                   brands: brands
                 })

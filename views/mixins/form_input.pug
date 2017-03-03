@@ -39,6 +39,16 @@ mixin input_readonly(label, type, field, value, errors)
 
 
 
+mixin input_checkbox(label, field, value)
+  label(for=field)= label
+  if value
+    input(type='checkbox' name=field checked)
+  else
+    input(type='checkbox' name=field)
+  br
+
+
+
 
 mixin input_error(errors, field)
   if (errors)

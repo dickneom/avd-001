@@ -43,7 +43,7 @@ router.get('/:dressId([0-9]+)', function (req, res, next) {
       if (req.session.userLoged) {
         user = req.session.userLoged
       }
-
+      console.log('vestido se renta: ', dress.forRent, ' Se vende: ', dress.forSale)
       // Esto deberia ser parte del control, deberia ser una funcion, para reutilizar
       res.render('dresses/dress_view', {
         title: 'Node es una mierda, y mas mierda y mas mierda',
