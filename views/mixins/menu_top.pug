@@ -20,6 +20,8 @@ mixin menu-top(name)
               li: a(href='/favorites') Favoritos
             if (pageName !== 'user_profile')
               li: a(href='/users/profile') Perfil
+            li: a(href='/messages') Mensajes 
+              span.badge 24
           else
             if (pageName !== 'login')
               li: a(href='/login') Ingresar
@@ -35,7 +37,8 @@ mixin menu-top(name)
               li(role='presentation'): a(href='/users/profile' role='menuitem') Perfil
               li(role='presentation'): a(href='/dresses/likes' role='menuitem') Favoritos
               li(role='presentation'): a(href='/dresses/mycloset' role='menuitem') Mi Closet
-              li(role='presentation'): a(href='/messages' role='menuitem') Mensajes
+              li(role='presentation'): a(href='/messages' role='menuitem') Mensajes 
+                span.badge 24
               li.divider(role='presentation')
               if name
                 li(role='presentation'): a(href="/logout" role='menuitem') Salir

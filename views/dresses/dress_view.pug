@@ -1,4 +1,5 @@
 extends ../layout
+include ../mixins/links
 
 block content
   h1 Ver Vestido
@@ -14,22 +15,24 @@ block content
         p= dress.brand.brand
         p= dress.state.title
         p= dress.color.color
-        p Precio de alquiler
+        p Precio de alquiler:
         p= dress.priceForRent
-        p Precio de venta
-        p= dress.priceForSale
-        p Precio original
+        if dress.forSale
+          p Precio de venta: #{dress.priceForSale}
+        p Precio original:
         p= dress.priceOriginal
         //- Para mostrar el propietario, si es un usuario registrado es un enlace, caso contrario es un texto
         if dress.user
           if dress.user.nickname
             if sessionUser
-              a(href='/users/' + dress.user.id) #{dress.user.nickname}
+              +linkShowUser(dress.user.id, dress.user.nickname)
+              //- a(href='/users/' + dress.user.id) #{dress.user.nickname}
             else
               p #{dress.user.nickname}
           else
             if sessionUser
-              a(href='/users/' + dress.user.id) #{dress.user.fullname}
+              +linkShowUser(dress.user.id, dress.user.fullname)
+              //- a(href='/users/' + dress.user.id) #{dress.user.fullname}
             else
               p #{dress.user.fullname}
     if sessionUser

@@ -1,3 +1,7 @@
+// /control/session.js
+
+var db = require('../models/db')
+
 /**
 / Verifica que el usuario esta logeado
 */
@@ -46,9 +50,54 @@ module.exports.sessionInit = function sessionInit (req, res, user, rememberme) {
   console.log('(SESSION.JS) *** *** *** *** Session iniciada')
 }
 
+
+/**
+/ Inicia una session
+*/
+module.exports.login = function sessionInit (req, res, email, passEncrypt, rememberme, callback) {
+  if (email) {
+    db.User.findOne({
+      where: {
+        email: email,
+        password: passEncrypt
+      }
+    }).then(function (user) {
+      if (user) {
+        req.session.userLoged = {
+          id: user.id,
+          nickname: user.nickname,
+          fullname: user.fullname,
+          email: user.email,
+          isAdmin: user.isAdmin,
+          isAuthenticated: user.authenticated
+        }
+        console.log('(SESSION.JS) *** *** *** *** Session iniciada.')
+        callback(null)
+      } else {
+        error = 'Email o password incorrectos.'
+        console.log('(SESSION.JS) ERROR:', error)
+        callback(error)
+      }
+    }).catch(function (errors) {
+      console.log('(SESSION.JS) ERROR en la busqueda del usuario.')
+      callback(errors.errors)
+    })
+  } else {
+    error = 'Email no definido'
+    console.log('(SESSION.JS) ERROR:', error)
+    callback(error)
+  }
+}
+
 /**
 / Verifica si el usuario logeado esta autenticado
 */
-module.exports.isAuthenticado = function isAuthenticado () {
-
+module.exports.isAuthenticado = function isAuthenticado (req, res, next) {
+  if (req.session.userLoged.isAuthenticated) {
+    next(null)
+  } else {
+    console.log('(SESSION.JS) Usuario no autenticado.')
+    var error =  'Usuario no autenticado'
+    next(error)
+  }
 }

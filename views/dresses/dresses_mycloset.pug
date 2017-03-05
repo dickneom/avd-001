@@ -1,24 +1,16 @@
 extends ../layout
 include ../mixins/dress_grid
 include ../mixins/links
+include ../mixins/pagination
 
 block content
-  h1 Lista de vestidos (Mi Closet)
-  +linkCreateDress
-
   .container
-    if page > 1
-      li: a(href='/dresses/mycloset?limit='+limit+'&page='+(page-1)) Anterior
-    else
-      li: a(href='/dresses/mycloset?limit='+limit+'&page='+(page)).deactivate Anterior
-    li= page
-    li: a(href='/dresses/mycloset?limit='+limit+'&page='+(page+1)) Siguiente
+    h1 Lista de vestidos (Mi Closet)
+    +linkCreateDress
+    br
+
+    +pagination(limit, page)
 
     +showDressGrid(dresses, 'mycloset')
 
-    if page > 1
-      li: a(href='/dresses/mycloset?limit='+limit+'&page='+(page-1)) Anterior
-    else
-      li: a(href='/dresses/mycloset?limit='+limit+'&page='+(page)).deactivate Anterior
-    li= page
-    li: a(href='/dresses/mycloset?limit='+limit+'&page='+(page+1)) Siguiente
+    +pagination(limit, page)

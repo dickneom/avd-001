@@ -1,0 +1,13 @@
+mixin pagination(limit, page)
+  ul.pagination.pagination-sm.justify-content-right
+    if page > 1
+      li.page-item: a(href='/dresses?limit='+limit+'&page='+(1)).page-link Primera
+      li.page-item: a(href='/dresses?limit='+limit+'&page='+(page-1)).page-link Anterior
+    else
+      li.page-item.disabled: a(href='/dresses?limit='+limit+'&page='+(1)).page-link Primera
+      li.page-item.disabled: a(href='/dresses?limit='+limit+'&page='+(page)).page-link Anterior
+
+    li.page-item.active: a(href='#').page-link #{page}
+
+    li.page-item: a(href='/dresses?limit='+limit+'&page='+(page+1)).page-link Siguiente
+    li.page-item.disabled: a(href='/dresses?limit='+limit+'&page='+(page+1)).page-link Ultima

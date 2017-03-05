@@ -1,3 +1,5 @@
+// /routes/login.js
+
 var express = require('express')
 var router = express.Router()
 
@@ -25,9 +27,36 @@ router.post('/', function (req, res, next) {
   var error
   var email = req.body.email
   var password = req.body.password
-  var rememberme = req.body.rememberme
+  var rememberme = req.body.rememberme? true : false
 
   controlUser.encryptPassword(password, function (passEncrypt) {
+    controlSession.login(req, res, email, passEncrypt, rememberme, function (errors) {
+      if (errors) {
+        console.log('(LOGIN.JS) ****** ERROR:', errors)
+        res.render('login/login', {
+          pageTitle: 'Ingreso',
+          pageName: 'login',
+          sessionUser: null,
+          errors: [errors]
+        })
+      } else {
+        if (req.session.userLoged.isAuthenticated) {
+          console.log('(LOGIN.JS) ****** Usuario validado y autentidado')
+        } else {
+          error = 'Usuario validado pero no autentidado'
+          console.log('(LOGIN.JS) *** ERROR:', error)
+        }
+
+        console.log('(LOGIN.JS) ****** Redireccionando a: ' + req.session.lastUrlGet)
+        if (req.session.lastUrlGet) {
+          res.redirect(req.session.lastUrlGet)
+        } else {
+          res.redirect('/')
+        }
+      }
+    })
+  })
+/*  controlUser.encryptPassword(password, function (passEncrypt) {
     db.User.findOne({
       where: {
         email: email,
@@ -69,7 +98,7 @@ router.post('/', function (req, res, next) {
       console.log('(LOGIN.JS) *** ERROR: en la busqueda (login.js)' + errors)
       res.send(errors)
     })
-  })
+  })*/
 })
 
 module.exports = router
