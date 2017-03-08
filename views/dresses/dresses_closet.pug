@@ -3,13 +3,12 @@ include ../mixins/dress_grid
 include ../mixins/pagination
 
 block content
-  .container
-    .page-header
-      h1 Lista de vestidos
-        small  (closet)
+  .page-header
+    h1 Lista de vestidos
+      small  (closet)
 
-    +pagination(limit, page)
+  +pagination(limit, page)
 
-    +showDressGrid(dresses, 'closet')
+  +showDressGrid(dresses, 'closet')
 
-    +pagination(limit, page)
+  +pagination(limit, page)

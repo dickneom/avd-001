@@ -4,13 +4,13 @@ include ../mixins/links
 include ../mixins/pagination
 
 block content
-  .container
-    h1 Lista de vestidos (Mi Closet)
+  h1 Lista de vestidos
+    span.small  (Mi Closet) 
     +linkCreateDress
-    br
+  br
 
-    +pagination(limit, page)
+  +pagination(limit, page)
 
-    +showDressGrid(dresses, 'mycloset')
+  +showDressGrid(dresses, 'mycloset')
 
-    +pagination(limit, page)
+  +pagination(limit, page)
