@@ -1,5 +1,5 @@
 //-   MENUS
-mixin menu-top(name)
+mixin menu-top(sessionUser)
   nav.navbar.navbar-inverse.navbar-fixed-top
     .container
       .navbar-header
@@ -10,18 +10,21 @@ mixin menu-top(name)
         a.navbar-brand(href='/'): img(src='/images/brand/logo.jpg' alt='Logo' width=100 height=25)
         a.navbar-brand(href='/') DressCloset
       .collapse.navbar-collapse#dcMenu
-        if (name)
-          p.navbar-text= name
+        if (sessionUser)
+          if (sessionUser.nickname)
+            p.navbar-text= sessionUser.nickname
+          else
+            p.navbar-text= sessionUser.fullname
         ul.nav.navbar-nav.navbar-right
-          if (pageName !== 'dresses' && name)
+          if (pageName !== 'dresses' && sessionUser)
             li: a(href='/dresses') Vestidos
-          if (name)
+          if (sessionUser)
             if (pageName !== 'favorites')
               li: a(href='/favorites') Favoritos
             if (pageName !== 'user_profile')
               li: a(href='/users/profile') Perfil
             li: a(href='/messages') Mensajes 
-              span.badge 24
+              span.badge #{sessionUser.messageCount}
           else
             if (pageName !== 'login')
               li: a(href='/login') Ingresar
@@ -37,10 +40,11 @@ mixin menu-top(name)
               li(role='presentation'): a(href='/users/profile' role='menuitem') Perfil
               li(role='presentation'): a(href='/dresses/likes' role='menuitem') Favoritos
               li(role='presentation'): a(href='/dresses/mycloset' role='menuitem') Mi Closet
-              li(role='presentation'): a(href='/messages' role='menuitem') Mensajes 
-                span.badge 24
+              li(role='presentation'): a(href='/messages' role='menuitem') Mensajes
+                if sessionUser 
+                  span.badge  #{sessionUser.messageCount}
               li.divider(role='presentation')
-              if name
+              if sessionUser
                 li(role='presentation'): a(href="/logout" role='menuitem') Salir
               else
                 li.disabled(role='presentation'): a(href="/logout" role='menuitem') Salir

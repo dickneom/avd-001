@@ -1,6 +1,7 @@
 // /control/session.js
 
 var db = require('../models/db')
+var controlMessages = require('./messages')
 
 /**
 / Verifica que el usuario esta logeado
@@ -45,7 +46,8 @@ module.exports.sessionInit = function sessionInit (req, res, user, rememberme) {
     nickname: user.nickname,
     fullname: user.fullname,
     email: user.email,
-    isAdmin: user.isAdmin
+    isAdmin: user.isAdmin,
+    isAuthenticated: user.authenticated
   }
   console.log('(SESSION.JS) *** *** *** *** Session iniciada')
 }
@@ -55,6 +57,7 @@ module.exports.sessionInit = function sessionInit (req, res, user, rememberme) {
 / Inicia una session
 */
 module.exports.login = function sessionInit (req, res, email, passEncrypt, rememberme, callback) {
+  console.log('(SESSION.JS) login')
   if (email) {
     db.User.findOne({
       where: {
@@ -69,10 +72,21 @@ module.exports.login = function sessionInit (req, res, email, passEncrypt, remem
           fullname: user.fullname,
           email: user.email,
           isAdmin: user.isAdmin,
-          isAuthenticated: user.authenticated
+          isAuthenticated: user.authenticated,
+          messagesCount: 0
         }
-        console.log('(SESSION.JS) *** *** *** *** Session iniciada.')
-        callback(null)
+
+        console.log('(SESSION.JS) Contando Mensajes.')
+        controlMessages.messagesNewCount(user, function(errors, count) {
+          console.log('(SESSION.JS) Mensajes contados.')
+          if (errors) {
+            req.session.userLoged.messageCount = 0
+          } else {
+            req.session.userLoged.messageCount = count
+          }
+          console.log('(SESSION.JS) *** *** *** *** Session iniciada. Con mensajes:', req.session.userLoged.messageCount)
+          callback(null)  
+        })
       } else {
         error = 'Email o password incorrectos.'
         console.log('(SESSION.JS) ERROR:', error)

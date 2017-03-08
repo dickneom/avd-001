@@ -24,3 +24,13 @@ mixin linkCreateDress()
 
 mixin linkShowUser(id, name)
   a(href='/users/' + id) mx #{name}
+
+mixin linkChangePictUser(id)
+  a(href='/users/' + id + '/images'): button.btn.btn-success.btn-sm mxCambiar foto
+
+mixin linkChangePassUser(id)
+  a(href='/users/pass_change'): button.btn.btn-success.btn-sm mxCambiar Contraseña
+
+mixin linkUpdateUser(id)
+  a(href='/users/' + id + '/update'): button.btn.btn-success.btn-sm mxActualizar datos
+

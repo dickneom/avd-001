@@ -5,7 +5,7 @@ var db = require('../models/db')
 var controlSession = require('../control/session')
 var controlMessage = require('../control/messages')
 
-router.get('/:messageId', controlSession.isSession, controlMessage.isOwnerDress, function (req, res, next) {
+router.get('/:messageId', controlSession.isSession, controlMessage.isOwnerMessage, function (req, res, next) {
   console.log('****** (MESSAGE_VIEW.JS) ATENDIENDO LA RUTA: ' + req.url + ' METODO: ' + req.method)
 
   var messageId = req.params.messageId

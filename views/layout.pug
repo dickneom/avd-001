@@ -26,12 +26,13 @@ html(lang='es')
     script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
 
   body
-    if sessionUser
+    +menu-top(sessionUser)
+    //- if sessionUser
       if sessionUser.nickname
         +menu-top(sessionUser.nickname)
       else
         +menu-top(sessionUser.fullname)
-    else
+    //- else
       +menu-top(null)
 
     block content

@@ -4,7 +4,9 @@ include ../mixins/pagination
 
 block content
   .container
-    h1 Lista de vestidos (closet)
+    .page-header
+      h1 Lista de vestidos
+        small  (closet)
 
     +pagination(limit, page)
 

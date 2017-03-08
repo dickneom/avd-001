@@ -2,15 +2,20 @@ extends ../layout
 include ../mixins/form_input
 
 block content
-  .row
-    if errors
-      each error in errors
-        p.error ERROR. #{error.message}
-  .row
-    .col-sm-6
-      form(method='post' action='/users/pass_change')
-        +input_readonly('Id Usuario', 'text', 'userId', sessionUser.id, null)
-        +input_required('Contraseña Anterior', 'password', 'passOld', '', errors)
-        +input_required('Contraseña', 'password', 'pass1', '', errors)
-        +input_required('Contraseña', 'password', 'pass2', '', errors)
-        button(type='submit') Grabar
+  .container
+    .row
+      .row
+        .col-sm-6.col-offset-3
+          .panel.panel-info
+            .panel-heading
+              h3 Cambiar contraseña
+              if errors
+                each error in errors
+                  p.error ERROR. #{error.message}
+          .panel-body
+            form(method='post' action='/users/pass_change' role='form')
+              +input_readonly('Id Usuario', 'text', 'userId', sessionUser.id, null)
+              +input_required('Contraseña Anterior', 'password', 'passOld', '', errors)
+              +input_required('Contraseña', 'password', 'pass1', '', errors)
+              +input_required('Repetir Contraseña', 'password', 'pass2', '', errors)
+              button.btn.btn-default(type='submit') Grabar

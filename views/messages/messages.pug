@@ -1,21 +1,31 @@
 extends ../layout
 
 block content
-  h1 Mensajes
+  .container
+    h1 Mensajes
 
-  if messages
-    each mess in messages
-      if !mess.isRead
-        h3
-          | #{mess.date}
-          |  - #{mess.subject}
-          |  - #{mess.text}
-          |  - #{mess.url}
-      else
-        p
-          | #{mess.date}
-          |  - #{mess.subject}
-          |  - #{mess.text}
-          |  - #{mess.url}
-
-      a(href='/messages/' + mess.id) Ver
+    if messages
+      table.table
+        thead
+          tr
+            th Fecha
+            th Nuevo
+            th Asunto
+            th Texto
+            th Ver
+        tbody
+          each mess in messages
+            if !mess.isRead
+              tr.success
+                td= mess.date
+                td S
+                td= mess.subject
+                td= mess.text
+                td: a(href='/messages/' + mess.id) Ver
+            else
+              tr
+                td= mess.date
+                td N
+                td= mess.subject
+                td= mess.text
+                td: a(href='/messages/' + mess.id) Ver
