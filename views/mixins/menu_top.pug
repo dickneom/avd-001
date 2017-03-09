@@ -17,7 +17,7 @@ mixin menu-top(sessionUser)
             p.navbar-text= sessionUser.fullname
         ul.nav.navbar-nav.navbar-right
           if (pageName !== 'dresses' && sessionUser)
-            li: a(href='/dresses') Vestidos
+            li: a(href='/dresses') Closet
           if (sessionUser)
             if (pageName !== 'favorites')
               li: a(href='/favorites') Favoritos
