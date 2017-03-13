@@ -21,6 +21,7 @@ db.Dress = require('./dresses')(sequelize, Sequelize)
 db.Color = require('./dress_colors')(sequelize, Sequelize)
 db.Brand = require('./dress_brands')(sequelize, Sequelize)
 db.State = require('./dress_states')(sequelize, Sequelize)
+db.Photo = require('./dress_photos')(sequelize, Sequelize)
 db.Message = require('./messages')(sequelize, Sequelize)
 db.Like = require('./likes')(sequelize, Sequelize)
 
@@ -35,6 +36,12 @@ db.Dress.belongsTo(db.User, {
 db.Dress.belongsTo(db.Color, {
   foreignKey: 'colorId',
   as: 'color'
+})
+
+// Dress1 - Photos* - Un vestido puede tener varias fotos
+db.Dress.hasMany(db.Photo, {
+  foreignKey: 'dressId',
+  as: 'photos'
 })
 
 // Dress1 - Brand1 - Un vestido registra una marca

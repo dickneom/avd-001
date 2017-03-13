@@ -11,8 +11,14 @@ block content
           h1= dress.title
         .panel-body
           .col-sm-4.text-center
-            img(src=dress.image width=200 height=300 alt=dress.image)
-            //-p Imagen: #{dress.image}
+            .row
+              img(src=dress.photos[0].photo_url width=200 height=300 alt=dress.image)
+              //-img(src=dress.image width=200 height=300 alt=dress.image)
+            .row
+              .col-sm-2
+              each photo in dress.photos
+                img(src=photo.photo_url width=40 height=60)
+                //-p Imagen: #{photo.photo_url}
           .col-sm-8
             p= dress.description
             p= dress.brand.brand

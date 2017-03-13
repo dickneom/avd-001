@@ -3,7 +3,7 @@ var router = express.Router()
 
 var db = require('../models/db')
 
-var DRESSES_FOR_PAGE = 9
+var DRESSES_FOR_PAGE = 12
 
 /**
 / GET home page.
@@ -82,7 +82,8 @@ router.get('/', function (req, res, next) {
 			errors: null,
 			dresses: dresses,
 			limit: limit,
-			page: page
+			page: page,
+			countCols: 4
 		})
 	}).catch(function (errors) { // Aqui capturo errores?????. Cuál?. Talvez un error producido en la busqueda de los vestidos
 		console.log('(INDEX.JS) ERROR en la busqueda. ' + errors) // Aqui presento el o los errores en el terminar

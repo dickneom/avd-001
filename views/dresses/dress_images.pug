@@ -2,28 +2,35 @@ extends ../layout
 include ../mixins/form_input
 
 block content
-  .container
-    if (errors)
-      ul
-        each error in errors
-          li.error  Error en: #{error.path} error: #{error.message}
+  .row
+    .col-sm-12
+      h1 Agregar imagen a un vestido
+  .row
+    .col-sm-12
+      a(href='/dresses/mycloset') Regresar
+  .row
+    .col-sm-12
+      if (errors)
+        ul
+          each error in errors
+            li.error  Error en: #{error.path} error: #{error.message}
+  .row
+    .col-sm-12
+      if (dress)
+        form(method='post' action='/dresses/images' enctype='multipart/form-data')
+          .row
+            .col-sm-12
+            +input_readonly('ID vestido', 'text', 'dressId', dress.id, null)
+          .row
+            - for (var i = 0; i < 6; i++)
+              .col-sm-4
+                - var photo = dress.photos[i]
+                if (photo && photo.photo_url)
+                  //-p= photo.photo_url
+                  img(src=photo.photo_url width=150 height=200 alt='Vestido')
+                else
+                  //-p= dress.image
+                  img(src=defaultImage width=150 height=200 alt='Vestido')
+                input(type='file'  name='image')
 
-  .container
-    h1 Agregar imagen a un vestido
-    .row
-      .col-sm-9
-        .row
-          a(href='/dresses/mycloset') Regresar
-        .row
-          if (dress)
-            form(method='post' action='/dresses/images' enctype='multipart/form-data')
-              +input_readonly('ID vestido', 'text', 'dressId', dress.id, null)
-              img(src=dress.image width=150 height=200 alt='Vestido')
-              input(type='file'  name='image')
-              if (dress.image)
-                button(type='submit') Cambiar imagen
-              else
-                button(type='submit') Subir imagen
-
-      .col-sm-3
-        p Publicidad
+            button(type='submit') Subir imagen

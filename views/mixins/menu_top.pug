@@ -19,8 +19,8 @@ mixin menu-top(sessionUser)
           if (pageName !== 'dresses' && sessionUser)
             li: a(href='/dresses') Closet
           if (sessionUser)
-            if (pageName !== 'favorites')
-              li: a(href='/favorites') Favoritos
+            if (pageName !== 'dresses_wishes')
+              li: a(href='/dresses/wishes') Favoritos
             if (pageName !== 'user_profile')
               li: a(href='/users/profile') Perfil
             li: a(href='/messages') Mensajes 
@@ -34,11 +34,11 @@ mixin menu-top(sessionUser)
             span.caret
             ul.dropdown-menu(role='menu')
               li.dropdown-header(role='presentation') Administrador
-              li(role='presentation'): a(href='/dresses/admin' role='menuitem') Lista de Vestidos
               li.divider(role='presentation')
               li.dropdown-header(role='presentation') Usuario
               li(role='presentation'): a(href='/users/profile' role='menuitem') Perfil
-              li(role='presentation'): a(href='/dresses/likes' role='menuitem') Favoritos
+              li(role='presentation'): a(href='/dresses' role='menuitem') Closet
+              li(role='presentation'): a(href='/dresses/wishes' role='menuitem') Favoritos
               li(role='presentation'): a(href='/dresses/mycloset' role='menuitem') Mi Closet
               li(role='presentation'): a(href='/messages' role='menuitem') Mensajes
                 if sessionUser 

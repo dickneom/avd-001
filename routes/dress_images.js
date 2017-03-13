@@ -14,6 +14,7 @@ cloudinary.config({
 })
 
 var db = require('../models/db')
+var global = require('../config/global')
 var controlSession = require('../control/session')
 var controlDresses = require('../control/dresses')
 
@@ -39,6 +40,10 @@ router.get('/:dressId([0-9]+)/images', controlSession.isSession, controlDresses.
     db.Dress.findOne({
       where: {
         id: dressId
+      },
+      include: {
+        model: db.Photo,
+        as: 'photos'
       }
     }).then(function (dress) { // Agui meto una funcion anonima porque nadie sabe (ni Google) como ponerla afuera, si ya sé que este codigo lo voy a utilizar de nuevo, pero a reescribir, que mas dá
       console.log('(DRESS_IMAGES.JS) Vestido encontrado. dress: ', dress.id)
@@ -56,7 +61,8 @@ router.get('/:dressId([0-9]+)/images', controlSession.isSession, controlDresses.
         pageName: 'dress_images',
         sessionUser: userLoged,
         errors: null,
-        dress: dress
+        dress: dress,
+        defaultImage: global.IMAG_DRESS_ANON
       })
     }).catch(function (errors) { // Aqui capturo errores?????. Cuál?. Talvez un error producido en la busqueda de los vestidos
       console.log('(DRESS_IMAGES.JS) ERROR (dress) en la busqueda. ' + errors) // Aqui presento el o los errores en el terminar
@@ -68,48 +74,80 @@ router.get('/:dressId([0-9]+)/images', controlSession.isSession, controlDresses.
 /**
 / Medoto POST para la ruta dresses/update, para actualizar la informacion de un vestido
 */
-router.post('/images', controlSession.isSession, uploader.single('image'), controlDresses.isOwnerDress, function (req, res, next) {
+router.post('/images', controlSession.isSession, uploader.array('image', 6), controlDresses.isOwnerDress, function (req, res, next) {
   console.log('(DRESS_IMAGES.JS) Atendiendo la ruta /dresses/images POST')
-  if (req.file) {
+  console.log('(DRESS_IMAGES.JS) Archivos:', req.files)
+
+  if (req.files && req.files.length > 0) {
+    console.log('(DRESS_IMAGES.JS) Numero de archivos:', req.files.length)
     var dressId = req.body.dressId
 
+    console.log('(DRESS_IMAGES.JS) Vestido id:', req.body.dressId)
     if (dressId) {
       db.Dress.findOne({
         where: {
           id: dressId
         }
       }).then(function (dress) {
-        cloudinary.uploader.upload(req.file.path, function (result) {
-          var fileUrl = result.url
-          // var fileSecureUrl = result.secure_url
+        console.log('(DRESS_IMAGES.JS) Encontrado el vestido: ', dressId)
+        // por cada foto
+        //   Verificar si la foto fue subida
+        //   Verificar que no haya en total mas de 6 fotos
+        //      Una forma: seria eliminar todas las imagenes y cargar las nuevas
+        //      Otra: verificar las imagenes subidas anteriores
+        //   Enviar la fotos a cloudinari
+        //   Agregar las fotos a dresses_photos
+        //
+        // Cambiar el estado el vestido a 1 (REGISTRADO)
 
-          dress.image = fileUrl
-          dress.stateId = 1
-          console.log('********* Vestido a grabar: ' + dress)
+        console.log('(DRESS_IMAGES.JS) Mostrando los seis vestidos.')
+        for (var i = 0; i < 6; i++) {
+          if (req.files[i]) {
+            console.log('Cargando imagenes: ', i, ' - ', req.files[i].path)
+          } else {
+            console.log('Cargando imagenes: ', i, ' - ', 'NINGUNA')
+          }
+        }
 
-          dress.save().then(function (dressNew) {
-            console.log('(DRESS_IMAGES.JS) Vestido grabado correctamente.')
-            res.render('dresses/dress_images', {
-              pageTitle: 'Agregar imagen al vestido: ' + dress.title,
-              pageName: 'dress_images',
-              sessionUser: req.session.userLoged,
-              errors: null,
-              dress: dressNew
+        console.log('(DRESS_IMAGES.JS) Mostrando los vestidos añadidos.')
+        for (var i = 0; i < req.files.length; i++) {
+          console.log('Cargando imagenes: ', req.files[i].path)
+
+/*          cloudinary.uploader.upload(req.file[i].path, function (result) {
+            var fileUrl = result.url
+            // var fileSecureUrl = result.secure_url
+
+            // dress.image = fileUrl
+            dress.stateId = 1
+            console.log('********* Vestido a grabar: ' + dress)
+
+            console.log('Cargando imagenes: ', req.files[i].path)
+
+            dress.save().then(function (dressNew) {
+              console.log('(DRESS_IMAGES.JS) Vestido grabado correctamente.')
+              res.render('dresses/dress_images', {
+                pageTitle: 'Agregar imagen al vestido: ' + dress.title,
+                pageName: 'dress_images',
+                sessionUser: req.session.userLoged,
+                errors: null,
+                dress: dressNew
+              })
+            }).catch(function (errors) {
+              console.log('(DRESS_IMAGES.JS) Vestido no se grabo.')
+              res.render('dresses/dress_images', {
+                pageTitle: 'Agregar imagen al vestido: ' + dress.title,
+                pageName: 'dress_images',
+                sessionUser: req.session.userLoged,
+                errors: errors,
+                dress: dress
+              })
             })
-          }).catch(function (errors) {
-            console.log('(DRESS_IMAGES.JS) Vestido no se grabo.')
-            res.render('dresses/dress_images', {
-              pageTitle: 'Agregar imagen al vestido: ' + dress.title,
-              pageName: 'dress_images',
-              sessionUser: req.session.userLoged,
-              errors: errors,
-              dress: dress
-            })
-          })
-        })
+          }) */
+        }
+
       }).catch(function (errors) {
-        console.log('(DRESS_IMAGES.JS) ERROR en la busqueda del vestido')
-        res.send('(DRESS_IMAGES.JS) ERROR en la busqueda del vestido. ')
+        console.log('(DRESS_IMAGES.JS) ERROR en la busqueda del vestido', errors)
+        res.send('(DRESS_IMAGES.JS) ERROR en la busqueda del vestido. '. errors)
       })
     } else {
       console.log('(DRESS_IMAGES.JS) ERROR el id del vestido no encontrado. ')

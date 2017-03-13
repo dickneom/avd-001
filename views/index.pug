@@ -3,10 +3,11 @@ include mixins/dress_grid
 include mixins/pagination
 
 block content
-  h1 Lista de vestidos (Index)
+  h1 Lista de vestidos
+    small (Index)
 
-  +pagination(limit, page)
+  +paginationIndex(limit, page)
 
-  +showDressGrid(dresses, 'index')
+  +showDressGrid(dresses, 'index', countCols)
 
-  +pagination(limit, page)
+  +paginationIndex(limit, page)

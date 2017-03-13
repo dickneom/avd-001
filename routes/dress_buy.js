@@ -1,3 +1,5 @@
+// /routes/dress_buy.js permite comprar o alquilar vetidos
+
 var express = require('express')
 var router = express.Router()
 

@@ -2,18 +2,20 @@ extends ../layout
 include ../mixins/form_input
 
 block content
-	h1 Ingreso
+	.row
+		.col-sm-6.col-sm-offset-3
+			h1 Ingreso
 
-	if errors
-		ul
-			each error in errors
-				li= error
+			if errors
+				ul
+					each error in errors
+						li= error
 
-	form(action='/login' method='post')
-		+input('Email', 'email', 'email', null, null)
-		+input('Contraseña', 'password', 'password', null, null)
-		label(for='rememberme') Recuerdame
-		input(type='checkbox' checked=true name='rememberme')
-		br
-		button(type='submit') Ingresar
-		a(href='/pass_recover') Recuperar contraseña
+			form(action='/login' method='post')
+				+input('Email', 'email', 'email', null, null)
+				+input('Contraseña', 'password', 'password', null, null)
+				label(for='rememberme') Recuerdame
+				input(type='checkbox' checked=true name='rememberme')
+				br
+				button(type='submit') Ingresar
+				a(href='/pass_recover') Recuperar contraseña

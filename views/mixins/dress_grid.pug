@@ -1,16 +1,26 @@
 include links
 
-mixin showDressGrid(dresses, type)
+//- numCols para 3 o 4 columnas
+mixin showDressGrid(dresses, type, numCols)
   .row
     if dresses
       each dress in dresses
-        .col-sm-4
-          if type === 'index'
-            +showDressIndex(dress)
-          if type === 'closet'
-            +showDressCloset(dress)
-          if type === 'mycloset'
-            +showDressMyCloset(dress)
+        if numCols === 3
+          .col-sm-4
+            if type === 'index'
+              +showDressIndex(dress)
+            if type === 'closet' || type === 'wishes'
+              +showDressCloset(dress)
+            if type === 'mycloset'
+              +showDressMyCloset(dress)
+        if numCols === 4
+          .col-sm-3
+            if type === 'index'
+              +showDressIndex(dress)
+            if type === 'closet' || type === 'wishes'
+              +showDressCloset(dress)
+            if type === 'mycloset'
+              +showDressMyCloset(dress)
     else
       p no hay vestidos
 
@@ -94,7 +104,7 @@ mixin showDressCloset(dress)
     .panel-footer
       +linkShowDress(dress.id)
       if sessionUser
-        a(href='#') Favoritos
+        +linkLikeDress(dress.id)
         if dress.forSale
           +linkBuyDress(dress.id)
         if dress.forRent

@@ -35,9 +35,19 @@ router.get('/:dressId([0-9]+)', function (req, res, next) {
       }, {
         model: db.State,
         as: 'state'
+      }, {
+        model: db.Photo,
+        as: 'photos'
       }]
     }).then(function (dress) { // Agui meto una funcion anonima porque nadie sabe (ni Google) como ponerla afuera, si ya sé que este codigo lo voy a utilizar de nuevo, pero a reescribir, que mas dá
       console.log('(DRESS_VIEW.JS) Vestido encontrado. dress: ', dress.id)
+
+
+      console.log('(DRESS_VIEW.JS) Vestido encontrado. dress: ', dress.image);
+      for (var i = 0; i < dress.photos.length; i++) {
+        console.log('(DRESS_VIEW.JS) Vestido encontrado. dress: ', dress.photos[i].photo_url);
+      }
+
 
       var user = null
       if (req.session.userLoged) {
