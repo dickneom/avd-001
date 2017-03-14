@@ -90,6 +90,9 @@ router.post('/images', controlSession.isSession, uploader.array('image', 6), con
         }
       }).then(function (dress) {
         console.log('(DRESS_IMAGES.JS) Encontrado el vestido: ', dressId)
+        
+
+        
         // por cada foto
         //   Verificar si la foto fue subida
         //   Verificar que no haya en total mas de 6 fotos
