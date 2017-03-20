@@ -15,17 +15,17 @@ block content
               img(src=dress.photos[0].photo_url width=300 height=500 alt=dress.image)
               //-img(src=dress.image width=200 height=300 alt=dress.image)
             .row
-              .col-sm-2
               each photo in dress.photos
-                img(src=photo.photo_url width=40 height=60)
-                //-p Imagen: #{photo.photo_url}
+                .col-sm-2
+                  a(href='#' ): img(src=photo.photo_url width=40 height=60)
+                  //-p Imagen: #{photo.photo_url}
           .col-sm-6
             p= dress.description
             p= dress.brand.brand
             p= dress.state.title
             p= dress.color.color
             if dress.forRent
-            p Precio de alquiler: #{dress.priceForRent}
+              p Precio de alquiler: #{dress.priceForRent}
             if dress.forSale
               p Precio de venta: #{dress.priceForSale}
             p Precio original: #{dress.priceOriginal}

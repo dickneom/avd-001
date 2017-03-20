@@ -29,7 +29,7 @@ mixin linkCreateDress()
   a(href='/dresses/create'): button.btn.btn-success.btn-sm mxAgregar Vestido
 
 mixin linkShowUser(id, name)
-  a(href='/users/' + id) mx #{name}
+  a(href='/users/' + id): button.btn.btn-success.btn-sm mx #{name}
 
 mixin linkChangePictUser(id)
   a(href='/users/' + id + '/images'): button.btn.btn-success.btn-sm mxCambiar foto
