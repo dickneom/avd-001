@@ -40,6 +40,9 @@ var session = expressSession({
     }
 });
 
+var db = require('./models/db');
+db.sync();
+
 var app = express();
 
 // view engine setup

@@ -1,7 +1,7 @@
-// /models.states.js
+// /models.brands.js
 
 module.exports = function(sequelize, DataTypes) {
-    var State = sequelize.define('State', {
+    var Catego = sequelize.define('Catego', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -17,12 +17,12 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.BOOLEAN
         }
     }, {
-        tableName: 'dresses_states',
+        tableName: 'dresses_categos',
         timestamps: false,
         underscored: true,
         paranoid: true
             // aqui faltan las relaciones
     });
 
-    return State;
+    return Catego;
 };
