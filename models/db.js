@@ -1,3 +1,5 @@
+/*jslint node: true*/
+
 var Sequelize = require('sequelize');
 
 // PARA BASE DE DATOS SQLITE PARA DESARROLLO
