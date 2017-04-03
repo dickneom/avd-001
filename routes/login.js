@@ -1,3 +1,6 @@
+/* cSpell:disable */
+/* jslint node: true */
+
 // /routes/login.js
 
 var express = require('express');

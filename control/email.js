@@ -1,3 +1,6 @@
+/* cSpell:disable */
+/* jslint node: true */
+
 /**
 / Encripta un mensaje
 */

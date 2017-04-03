@@ -1,3 +1,6 @@
+/* cSpell:disable */
+/* jslint node: true */
+
 var express = require('express');
 var router = express.Router();
 

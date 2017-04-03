@@ -1,3 +1,6 @@
+/* cSpell:disable */
+/* jslint node: true */
+
 // /models.brands.js
 
 module.exports = function(sequelize, DataTypes) {

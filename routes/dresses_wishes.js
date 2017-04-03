@@ -1,3 +1,6 @@
+/* cSpell:disable */
+/* jslint node: true */
+
 var express = require('express');
 var router = express.Router();
 
@@ -74,7 +77,8 @@ router.get('/wishes', controlSession.isSession, function(req, res, next) {
         console.log('(DRESSES_WISHES.JS) ');
         var dresses = [];
         var dress;
-        for (var i = 0; i < likes.length; i++) {
+        var i;
+        for (i = 0; i < likes.length; i++) {
             dress = likes[i].dress;
             if (dress.stateId === 3) {
                 dresses.push(dress);

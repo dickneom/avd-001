@@ -1,3 +1,6 @@
+/* cSpell:disable */
+/* jslint node: true */
+
 var express = require('express');
 var router = express.Router();
 
@@ -10,8 +13,8 @@ router.get('/', function(req, res, next) {
         } else {
             // req.session.user = null
             // req.session = null
-            console.log('*** Sesion: ' + req.session);
-            // console.log('*** Sesion: ' + req.session.user)
+            console.log('*** Session: ' + req.session);
+            // console.log('*** Session: ' + req.session.user)
             res.redirect('/');
         }
     });

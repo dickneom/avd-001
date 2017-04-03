@@ -1,4 +1,5 @@
-/*jslint node: true*/
+/* cSpell:disable */
+/* jslint node: true */
 
 var Sequelize = require('sequelize');
 

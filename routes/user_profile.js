@@ -1,3 +1,6 @@
+/* cSpell:disable */
+/* jslint node: true */
+
 // /routes/users_profile
 
 var express = require('express');

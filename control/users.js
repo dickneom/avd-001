@@ -1,3 +1,6 @@
+/* cSpell:disable */
+/* jslint node: true */
+
 // /control/users.js
 
 // var db = require('../models/db')

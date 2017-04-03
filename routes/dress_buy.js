@@ -1,3 +1,6 @@
+/* cSpell:disable */
+/* jslint node: true */
+
 // /routes/dress_buy.js permite comprar o alquilar vetidos
 
 var express = require('express');

@@ -1,3 +1,6 @@
+/* cSpell:disable */
+/* jslint node: true */
+
 // /routes/dress_publish
 
 var express = require('express');
