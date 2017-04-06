@@ -105,22 +105,22 @@ db.Dress.belongsTo(db.Catego, {
 });
 
 // User1 - Dress* - Un usuario esta registrado en muchos vestidos
-db.User.hasMany(db.Dress, {
+/*db.User.hasMany(db.Dress, {
     //foreignKey: 'userId',
     as: 'dress'
-});
+});*/
 
 // Message* - User1 - Un mensaje es para un usuario
-db.Message.belongsTo(db.User, {
+/*db.Message.belongsTo(db.User, {
     //foreignKey: 'userIdTo',
     as: 'userTo'
-});
+});*/
 
 // Message* - User1 - Un mensaje es enviado por un usuario
-db.Message.belongsTo(db.User, {
+/*db.Message.belongsTo(db.User, {
     //foreignKey: 'userIdFrom',
     as: 'userFrom'
-});
+});*/
 
 // User1 - Message* - Un usuario puede recibir muchos mensajes
 db.User.hasMany(db.Message, {
@@ -141,10 +141,10 @@ db.Dress.hasMany(db.Like, {
 });
 
 // Like1 - Dress1 - Un like es para un vestido
-db.Like.belongsTo(db.Dress, {
+/*db.Like.belongsTo(db.Dress, {
     //foreignKey: 'dressId',
     as: 'dress'
-});
+});*/
 
 // User1 - Like* - Un usuario puede dar muchos likes
 db.User.hasMany(db.Like, {
