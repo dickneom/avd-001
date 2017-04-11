@@ -17,7 +17,7 @@ mixin menu-top(sessionUser)
             p.navbar-text= sessionUser.fullname
         ul.nav.navbar-nav.navbar-right
           if (pageName !== 'dresses' && sessionUser)
-            li: a(href='/dresses') Closet
+            li: a(href='/dresses/closet') Closet
           if (sessionUser)
             if (pageName !== 'dresses_wishes')
               li: a(href='/dresses/wishes') Favoritos
@@ -37,7 +37,7 @@ mixin menu-top(sessionUser)
               li.divider(role='presentation')
               li.dropdown-header(role='presentation') Usuario
               li(role='presentation'): a(href='/users/profile' role='menuitem') Perfil
-              li(role='presentation'): a(href='/dresses' role='menuitem') Closet
+              li(role='presentation'): a(href='/dresses/closet' role='menuitem') Closet
               li(role='presentation'): a(href='/dresses/wishes' role='menuitem') Favoritos
               li(role='presentation'): a(href='/dresses/mycloset' role='menuitem') Mi Closet
               li(role='presentation'): a(href='/messages' role='menuitem') Mensajes

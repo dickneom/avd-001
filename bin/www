@@ -31,7 +31,7 @@ var server = http.createServer(app);
 
 console.log('(APP.JS) Sincronizando.');
 db.sequelize.sync().then(function() {
-    console.log('(APP.JS) Sincronizado.');
+    console.log('(APP.JS) Sincronizado. Base de datos creada.');
 
     server.listen(port, function() {
         debug('Express server listening on port ' + server.address().port);

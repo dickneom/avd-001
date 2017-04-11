@@ -65,22 +65,24 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.BOOLEAN,
             field: 'is_read',
             default: false
-        },
-        createdAt: {
-            type: DataTypes.DATE,
-            field: 'created_at'
-        },
-        updatedAt: {
-            type: DataTypes.DATE,
-            field: 'updated_at'
-        },
-        deletedAt: {
-            type: DataTypes.DATE,
-            field: 'deleted_at'
         }
+        /*,
+                createdAt: {
+                    type: DataTypes.DATE,
+                    field: 'created_at'
+                },
+                updatedAt: {
+                    type: DataTypes.DATE,
+                    field: 'updated_at'
+                },
+                deletedAt: {
+                    type: DataTypes.DATE,
+                    field: 'deleted_at'
+                }*/
     }, {
         tableName: 'messages',
         timestamps: true,
+        underscored: true,
         paranoid: true
             // aqui faltan las relaciones
     });

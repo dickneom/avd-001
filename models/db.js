@@ -4,24 +4,24 @@
 var Sequelize = require('sequelize');
 
 // PARA BASE DE DATOS SQLITE PARA DESARROLLO
-/*var sequelize = new Sequelize('', '', '', {
+var sequelize = new Sequelize('', '', '', {
     dialect: 'sqlite',
     storage: './db/dc.db',
     define: {
         //    timestamps: false,
         freezeTableName: true
     }
-});*/
+});
 
 // PARA BASE DE DATOS POSTGRES PARA PRUEBAS
-var sequelize = new Sequelize('avd_test', 'dickneom', '1', {
+/*var sequelize = new Sequelize('avd_test', 'dickneom', '1', {
     host: 'localhost',
     dialect: 'postgres',
     define: {
         freezeTableName: true,
         underscored: true
     }
-});
+});*/
 
 // PARA BASE DE DATOS POSTGRES PARA PRODUCCION
 /*var sequelize = new Sequelize('dc_test', 'dickneom', '1', {
@@ -42,16 +42,16 @@ var sequelize = new Sequelize('avd_test', 'dickneom', '1', {
 // conentando los modelos, relaciones en la base de datos en un db objeto
 var db = {};
 
-db.sync = function() {
-    console.log('(DB.JS) Sincronizando');
-    sequelize.sync({
-        force: true
-    }).then(function() {
-        console.log('(DB.JS) Base de datos creada');
-    }).catch(function(error) {
-        console.log('(DB.JS) ERROR al crear la base de datos: ', error);
-    });
-};
+// db.sync = function() {
+//     console.log('(DB.JS) Sincronizando');
+//     sequelize.sync({
+//         force: true
+//     }).then(function() {
+//         console.log('(DB.JS) Base de datos creada');
+//     }).catch(function(error) {
+//         console.log('(DB.JS) ERROR al crear la base de datos: ', error);
+//     });
+// };
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
@@ -111,26 +111,26 @@ db.Dress.belongsTo(db.Catego, {
 });*/
 
 // Message* - User1 - Un mensaje es para un usuario
-/*db.Message.belongsTo(db.User, {
-    //foreignKey: 'userIdTo',
+db.Message.belongsTo(db.User, {
+    foreignKey: 'userIdTo',
     as: 'userTo'
-});*/
+});
 
 // Message* - User1 - Un mensaje es enviado por un usuario
-/*db.Message.belongsTo(db.User, {
-    //foreignKey: 'userIdFrom',
+db.Message.belongsTo(db.User, {
+    foreignKey: 'userIdFrom',
     as: 'userFrom'
-});*/
+});
 
 // User1 - Message* - Un usuario puede recibir muchos mensajes
 db.User.hasMany(db.Message, {
-    //foreignKey: 'userIdTo',
+    foreignKey: 'userIdTo',
     as: 'userTo'
 });
 
 // User1 - Message* - Un usuario puede enviar muchos mensajes
 db.User.hasMany(db.Message, {
-    //foreignKey: 'userIdFrom',
+    foreignKey: 'userIdFrom',
     as: 'userFrom'
 });
 
@@ -141,10 +141,10 @@ db.Dress.hasMany(db.Like, {
 });
 
 // Like1 - Dress1 - Un like es para un vestido
-/*db.Like.belongsTo(db.Dress, {
+db.Like.belongsTo(db.Dress, {
     //foreignKey: 'dressId',
     as: 'dress'
-});*/
+});
 
 // User1 - Like* - Un usuario puede dar muchos likes
 db.User.hasMany(db.Like, {
