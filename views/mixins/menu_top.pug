@@ -34,6 +34,7 @@ mixin menu-top(sessionUser)
             span.caret
             ul.dropdown-menu(role='menu')
               li.dropdown-header(role='presentation') Administrador
+              li(role='presentation'): a(href='/users' role='menuitem') Usuarios
               li.divider(role='presentation')
               li.dropdown-header(role='presentation') Usuario
               li(role='presentation'): a(href='/users/profile' role='menuitem') Perfil

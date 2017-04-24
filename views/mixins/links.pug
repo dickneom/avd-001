@@ -40,3 +40,11 @@ mixin linkChangePassUser(id)
 mixin linkUpdateUser(id)
   a(href='/users/' + id + '/update'): button.btn.btn-success.btn-sm mxActualizar datos
 
+mixin linkCreateUser()
+  a(href='/users/create'): button.btn.btn-success.btn-sm mxAgregar Usuario
+
+mixin linkAdminShowUser(id)
+  a(href='/users/' + id): button.btn.btn-primary.btn-sm mxVer
+
+mixin linkAdminUpdateUser(id)
+  a(href='/users/' + id + '/update'): button.btn.btn-primary.btn-sm mxEditar
